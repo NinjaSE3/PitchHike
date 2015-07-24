@@ -10,16 +10,16 @@ import UIKit
 
 class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLLocationManagerDelegate, GMSMapViewDelegate {
   
-  @IBOutlet weak var addressLabel: UILabel!
-  @IBAction func TeacherSearch(sender: AnyObject) {
-    
-    locationManager.delegate = self
-    locationManager.requestWhenInUseAuthorization()
-    
-    println("位置情報取得後の処理記述");
-    
-    }
+  //  @IBAction func TeacherSearch(sender: AnyObject) {
+  //
+  //    locationManager.delegate = self
+  //    locationManager.requestWhenInUseAuthorization()
+  //
+  //    println("位置情報取得後の処理記述");
+  //
+  //    }
   
+  @IBOutlet weak var addressLabel: UILabel!
   @IBOutlet weak var mapView: GMSMapView!
   @IBOutlet weak var mapCenterPinImage: UIImageView!
   @IBOutlet weak var pinImageVerticalConstraint: NSLayoutConstraint!

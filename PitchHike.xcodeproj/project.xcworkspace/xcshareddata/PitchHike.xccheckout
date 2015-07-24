@@ -10,14 +10,14 @@
 	<string>PitchHike</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>CF895BD17B78FB9B69324A19ECD3A59FCCB179A7</key>
+		<key>B552131FE40AF540C080F4A5F91CFE80D84ED7D3</key>
 		<string>https://github.com/NinjaSE3/PitchHike.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>PitchHike.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>CF895BD17B78FB9B69324A19ECD3A59FCCB179A7</key>
+		<key>B552131FE40AF540C080F4A5F91CFE80D84ED7D3</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,14 +25,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>CF895BD17B78FB9B69324A19ECD3A59FCCB179A7</string>
+	<string>B552131FE40AF540C080F4A5F91CFE80D84ED7D3</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>CF895BD17B78FB9B69324A19ECD3A59FCCB179A7</string>
+			<string>B552131FE40AF540C080F4A5F91CFE80D84ED7D3</string>
 			<key>IDESourceControlWCCName</key>
 			<string>PitchHike</string>
 		</dict>

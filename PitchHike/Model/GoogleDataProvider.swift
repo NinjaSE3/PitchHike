@@ -75,7 +75,7 @@ class GoogleDataProvider {
                 // DirectionData取得
                 self.calculateTotalDistanceAndDuration(urlString)
                 
-                // TODO 先生の検索
+                // TODO 先生の検索処理
                 
                 
               }
@@ -90,12 +90,11 @@ class GoogleDataProvider {
   }
   
   
-  
   func calculateTotalDistanceAndDuration(urlString: String) {
     let json = JSON(url: urlString)
     
     
-    // todo 特定の要素の取り出し トータル距離と時間算出用
+    // todo 特定の要素の取り出し トータル距離と時間算出
     var legs = json["routes"][0]["legs"]
     println(legs)
     

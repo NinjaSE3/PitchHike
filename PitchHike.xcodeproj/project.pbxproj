@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		000A924B1B4D66C60005FC5B /* json.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000A924A1B4D66C60005FC5B /* json.swift */; };
+		006F41C31B629A44004E63F2 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F41C21B629A44004E63F2 /* SearchViewController.swift */; };
 		00B121121B61FF7F008F3AC4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00B121111B61FF7F008F3AC4 /* LaunchScreen.xib */; };
 		00B121161B620143008F3AC4 /* WebAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B121141B620143008F3AC4 /* WebAPI.swift */; };
 		00B1211A1B620313008F3AC4 /* MatchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B121191B620313008F3AC4 /* MatchingViewController.swift */; };
@@ -52,9 +53,10 @@
 
 /* Begin PBXFileReference section */
 		000A924A1B4D66C60005FC5B /* json.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = json.swift; sourceTree = "<group>"; };
+		006F41C21B629A44004E63F2 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		00B121111B61FF7F008F3AC4 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		00B121141B620143008F3AC4 /* WebAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebAPI.swift; sourceTree = "<group>"; };
-		00B121191B620313008F3AC4 /* MatchingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchingViewController.swift; sourceTree = "<group>"; };
+		00B121191B620313008F3AC4 /* MatchingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MatchingViewController.swift; path = ../MatchingViewController.swift; sourceTree = "<group>"; };
 		00B1211B1B621263008F3AC4 /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZFRippleButton.swift; sourceTree = "<group>"; };
 		0E22404A1AD69C7E008C9D04 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		0E22404C1AD69C8E008C9D04 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
@@ -144,7 +146,6 @@
 			isa = PBXGroup;
 			children = (
 				B48F646D19B22EB200710BEB /* AppDelegate.swift */,
-				00B121191B620313008F3AC4 /* MatchingViewController.swift */,
 				00B121141B620143008F3AC4 /* WebAPI.swift */,
 				000A924A1B4D66C60005FC5B /* json.swift */,
 				00B1211B1B621263008F3AC4 /* ZFRippleButton.swift */,
@@ -188,6 +189,8 @@
 		B48F648A19B22EFC00710BEB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				006F41C21B629A44004E63F2 /* SearchViewController.swift */,
+				00B121191B620313008F3AC4 /* MatchingViewController.swift */,
 				B48F648D19B22F8700710BEB /* MapViewController.swift */,
 				B48F649B19B22FA500710BEB /* TypesTableViewController.swift */,
 			);
@@ -345,6 +348,7 @@
 				CF85278419FAAAA0002C596E /* PlaceMarker.swift in Sources */,
 				B48F648E19B22F8700710BEB /* MapViewController.swift in Sources */,
 				00B1211A1B620313008F3AC4 /* MatchingViewController.swift in Sources */,
+				006F41C31B629A44004E63F2 /* SearchViewController.swift in Sources */,
 				B48F649A19B22F9B00710BEB /* UIViewExtension.swift in Sources */,
 				B48F649C19B22FA500710BEB /* TypesTableViewController.swift in Sources */,
 				00B121161B620143008F3AC4 /* WebAPI.swift in Sources */,
