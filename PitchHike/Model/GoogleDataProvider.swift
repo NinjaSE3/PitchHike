@@ -71,6 +71,7 @@ class GoogleDataProvider {
     session.dataTaskWithURL(NSURL(string: urlString)!) {data, response, error in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       var encodedRoute: String?
+      
       if let json = NSJSONSerialization.JSONObjectWithData(data, options:nil, error:nil) as? [String:AnyObject] {
         if let routes = json["routes"] as AnyObject? as? [AnyObject] {
           if let route = routes.first as? [String : AnyObject] {
@@ -118,7 +119,11 @@ class GoogleDataProvider {
                 if(appDelegate._error != "TimeOut"){
                   //appDelegateの変数を操作 マッチングした先生と生徒の_id
                   appDelegate._requestStatusID = requestTeacherRes["_id"].toString(pretty: true)
+                  let requestStatusRes = self.getRequestStatus(requestTeacherRes["_id"].toString(pretty: true))
+                  println(requestStatusRes["status"])
+                  appDelegate._userId = requestStatusRes["teacher"].toString(pretty: true)
                   appDelegate._screen = "Matching"
+                  
                 }else{
                   print("Search失敗")
                 }
@@ -133,40 +138,21 @@ class GoogleDataProvider {
     }.resume()
   }
   
-  
-  //現在地から指定値までの時間、距離を計算
+  //現在地から指定値までの時間、距離計算
   func calculateTotalDistanceAndDuration(urlString: String) {
     let json = JSON(url: urlString)
     
-    
-    // todo 特定の要素の取り出し トータル距離と時間算出
-    let legs = json["routes"][0]["legs"]
+    let legs = json["routes"][0]["legs"][0]
     println(legs)
-
-    var totalDistanceInMeters = 0
-    var totalDurationInSeconds = 0
     
-    for leg in legs {
-//      totalDistanceInMeters += leg["distance"]
-   //   totalDurationInSeconds += (leg["duration"] as Dictionary<NSObject, AnyObject>)["value"] as UInt
-    }
-
+    var totalDistanceInMeters = json["routes"][0]["legs"][0]["distance"]["text"]
+    var totalDurationInSeconds = json["routes"][0]["legs"][0]["duration"]["text"]
+    
     println(totalDistanceInMeters)
+    println(totalDurationInSeconds)
     
-//
-//    let distanceInKilometers: Double = Double(totalDistanceInMeters / 1000)
-//    totalDistance = "Total Distance: \(distanceInKilometers) Km"
-//    
-//    
-//    let mins = totalDurationInSeconds / 60
-//    let hours = mins / 60
-//    let days = hours / 24
-//    let remainingHours = hours % 24
-//    let remainingMins = mins % 60
-//    let remainingSecs = totalDurationInSeconds % 60
-//    
-//    totalDuration = "Duration: \(days) d, \(remainingHours) h, \(remainingMins) mins, \(remainingSecs) secs"
   }
+
   
   
   func fetchPhotoFromReference(reference: String, completion: ((UIImage?) -> Void)) -> ()
@@ -201,6 +187,15 @@ class GoogleDataProvider {
     println(getRequestStatusURL)
     println(requestStatusRes)
     return requestStatusRes
+  }
+
+  
+  func getUser(requestUserId:String) -> JSON{
+    var userReq = "http://52.8.212.125/getUser?userid=" + requestUserId
+    let user = JSON(url: userReq)
+    println(userReq)
+    println(user)
+    return user
   }
 
 }
