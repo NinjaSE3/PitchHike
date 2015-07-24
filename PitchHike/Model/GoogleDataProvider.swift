@@ -90,23 +90,26 @@ class GoogleDataProvider {
   }
   
   
+  //現在地から指定値までの時間、距離を計算
   func calculateTotalDistanceAndDuration(urlString: String) {
     let json = JSON(url: urlString)
     
     
     // todo 特定の要素の取り出し トータル距離と時間算出
-    var legs = json["routes"][0]["legs"]
+    let legs = json["routes"][0]["legs"]
     println(legs)
-    
+
     var totalDistanceInMeters = 0
     var totalDurationInSeconds = 0
     
-//    for leg in legs {
-//      totalDistanceInMeters += (leg["distance"] as Dictionary<NSObject, AnyObject>)["value"] as UInt
-//      totalDurationInSeconds += (leg["duration"] as Dictionary<NSObject, AnyObject>)["value"] as UInt
-//    }
-//    
-//    
+    for leg in legs {
+      totalDistanceInMeters += leg["distance"]
+   //   totalDurationInSeconds += (leg["duration"] as Dictionary<NSObject, AnyObject>)["value"] as UInt
+    }
+
+    println(totalDistanceInMeters)
+    
+//
 //    let distanceInKilometers: Double = Double(totalDistanceInMeters / 1000)
 //    totalDistance = "Total Distance: \(distanceInKilometers) Km"
 //    
