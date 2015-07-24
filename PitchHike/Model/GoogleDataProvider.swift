@@ -19,6 +19,12 @@ class GoogleDataProvider {
     return NSURLSession.sharedSession()
   }
   
+  struct location{
+    static var lat = ""
+    static var lng = ""
+  }
+  
+  
   func fetchPlacesNearCoordinate(coordinate: CLLocationCoordinate2D, radius: Double, types:[String], completion: (([GooglePlace]) -> Void)) -> ()
   {
     var urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=\(apiKey)&location=\(coordinate.latitude),\(coordinate.longitude)&radius=\(radius)&rankby=prominence&sensor=true"
@@ -76,8 +82,46 @@ class GoogleDataProvider {
                 self.calculateTotalDistanceAndDuration(urlString)
                 
                 // TODO 先生の検索処理
+                //AppDelegateのインスタンスを取得
+                var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                location.lat = String(stringInterpolationSegment: to.latitude)
+                location.lng = String(stringInterpolationSegment: to.longitude)
                 
+                println(location.lat)
+                println(location.lng)
                 
+                //req:lat,lng,language,userid res:requestStatus
+                let requestTeacherRes = self.requestTeacher(location.lat, lng: location.lng, lang: "English", userid: "000001")
+                println(requestTeacherRes["status"])
+                
+                // 現在日時を取得
+                var date1 = NSDate()
+                while(true){
+                  let requestStatusRes = self.getRequestStatus(requestTeacherRes["_id"].toString(pretty: true))
+                  println(requestStatusRes["status"])
+                  
+                  sleep(1)
+                  // 現在日時を取得
+                  var date2 = NSDate()
+                  var time  = Float(date2.timeIntervalSinceDate(date1))
+                  println(time)
+                  
+                  var status:String = requestStatusRes["status"].toString(pretty: true)
+                  if( requestStatusRes["status"].toString(pretty: true) == "req" ){
+                    break
+                  }
+                  if(time > Float(5)){
+                    appDelegate._error = "TimeOut"
+                    break
+                  }
+                }
+                if(appDelegate._error != "TimeOut"){
+                  //appDelegateの変数を操作 マッチングした先生と生徒の_id
+                  appDelegate._requestStatusID = requestTeacherRes["_id"].toString(pretty: true)
+                  appDelegate._screen = "Matching"
+                }else{
+                  print("Search失敗")
+                }
               }
             }
           }
@@ -103,7 +147,7 @@ class GoogleDataProvider {
     var totalDurationInSeconds = 0
     
     for leg in legs {
-      totalDistanceInMeters += leg["distance"]
+//      totalDistanceInMeters += leg["distance"]
    //   totalDurationInSeconds += (leg["duration"] as Dictionary<NSObject, AnyObject>)["value"] as UInt
     }
 
@@ -142,4 +186,21 @@ class GoogleDataProvider {
       }.resume()
     }
   }
+  
+  func requestTeacher(lat:String,lng:String,lang:String,userid:String) -> JSON{
+    var requestTeacherURL = "http://52.8.212.125/requestTeacher?lat=" + String(lat) + "&lng="+String(lng)+"&lang=" + String(lang) + "&userid=" + String(userid)
+    let requestTeacherRes = JSON(url: requestTeacherURL)
+    println(requestTeacherURL)
+    println(requestTeacherRes)
+    return requestTeacherRes
+  }
+  
+  func getRequestStatus(_id:String) -> JSON{
+    var getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id="+_id
+    let requestStatusRes = JSON(url: getRequestStatusURL)
+    println(getRequestStatusURL)
+    println(requestStatusRes)
+    return requestStatusRes
+  }
+
 }

@@ -32,10 +32,6 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   var totalDistance: String!
   var totalDuration: String!
   
-  struct location{
-    static var lat = ""
-    static var lng = ""
-  }
   
   var randomLineColor: UIColor {
     get {
@@ -180,8 +176,16 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
         
         // 5
         mapView.selectedMarker = nil
+        
+        // 6
+        //AppDelegateのインスタンスを取得
+        var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        if(appDelegate._screen == "Matching"){
+          //ここでお願いします。
+        }
       }
     }
+    
   }
   
   func mapView(mapView: GMSMapView!, willMove gesture: Bool) {
@@ -225,24 +229,6 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     fetchNearbyPlaces(mapView.camera.target)
   }
   
-  
-  
-  // Request APIs
-  func requestTeacher(lat:String,lng:String,lang:String,userid:String) -> JSON{
-    var requestTeacherURL = "http://52.8.212.125/requestTeacher?lat=" + String(lat) + "&lng="+String(lng)+"&lang=" + String(lang) + "&userid=" + String(userid)
-    let requestTeacherRes = JSON(url: requestTeacherURL)
-    println(requestTeacherURL)
-    println(requestTeacherRes)
-    return requestTeacherRes
-  }
-  
-  func getRequestStatus(_id:String) -> JSON{
-    var getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id="+_id
-    let requestStatusRes = JSON(url: getRequestStatusURL)
-    println(getRequestStatusURL)
-    println(requestStatusRes)
-    return requestStatusRes
-  }
   
 }
 

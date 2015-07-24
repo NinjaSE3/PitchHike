@@ -15,6 +15,7 @@
 		00B1211C1B621263008F3AC4 /* ZFRippleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B1211B1B621263008F3AC4 /* ZFRippleButton.swift */; };
 		0E22404B1AD69C7E008C9D04 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E22404A1AD69C7E008C9D04 /* GoogleMaps.framework */; };
 		0E22404D1AD69C8E008C9D04 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0E22404C1AD69C8E008C9D04 /* GoogleMaps.bundle */; };
+		2D2DA8E91B62B4C8006D0FC1 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA8E81B62B4C8006D0FC1 /* StartViewController.swift */; };
 		B48F646E19B22EB200710BEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48F646D19B22EB200710BEB /* AppDelegate.swift */; };
 		B48F647319B22EB200710BEB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B48F647119B22EB200710BEB /* Main.storyboard */; };
 		B48F647519B22EB200710BEB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B48F647419B22EB200710BEB /* Images.xcassets */; };
@@ -60,6 +61,7 @@
 		00B1211B1B621263008F3AC4 /* ZFRippleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZFRippleButton.swift; sourceTree = "<group>"; };
 		0E22404A1AD69C7E008C9D04 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		0E22404C1AD69C8E008C9D04 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
+		2D2DA8E81B62B4C8006D0FC1 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		B48F646819B22EB200710BEB /* PitchHike.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchHike.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B48F646C19B22EB200710BEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B48F646D19B22EB200710BEB /* AppDelegate.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				00B121191B620313008F3AC4 /* MatchingViewController.swift */,
 				B48F648D19B22F8700710BEB /* MapViewController.swift */,
 				B48F649B19B22FA500710BEB /* TypesTableViewController.swift */,
+				2D2DA8E81B62B4C8006D0FC1 /* StartViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B48F646E19B22EB200710BEB /* AppDelegate.swift in Sources */,
+				2D2DA8E91B62B4C8006D0FC1 /* StartViewController.swift in Sources */,
 				B48F649219B22F9400710BEB /* GoogleDataProvider.swift in Sources */,
 				000A924B1B4D66C60005FC5B /* json.swift in Sources */,
 				00B1211C1B621263008F3AC4 /* ZFRippleButton.swift in Sources */,
@@ -523,7 +527,7 @@
 				INFOPLIST_FILE = PitchHikeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = PitchHikeTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Feed Me.app/Feed Me";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PitchHike.app/PitchHike";
 			};
 			name = Debug;
 		};
@@ -538,7 +542,7 @@
 				INFOPLIST_FILE = PitchHikeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = PitchHikeTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Feed Me.app/Feed Me";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PitchHike.app/PitchHike";
 			};
 			name = Release;
 		};
