@@ -94,6 +94,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     if let infoView = UIView.viewFromNibName("MarkerInfoView") as? MarkerInfoView {
       // 3
       infoView.nameLabel.text = placeMarker.place.name
+      infoView.backgroundColor = textIcons
 
       // 4
       if let photo = placeMarker.place.photo {
@@ -146,6 +147,8 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
       //Add this line
       self.addressLabel.unlock()
       if let address = response?.firstResult() {
+        self.addressLabel.backgroundColor = self.primaryColor
+        self.addressLabel.textColor = self.lightPrimaryColor
         let lines = address.lines as! [String]
         self.addressLabel.text = join("\n", lines)
         
@@ -214,17 +217,18 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
           // 画像をUIImageViewに設定する.
           teacherImageView.image = teacherImage
           // 画像の表示する座標を指定する.
-          teacherImageView.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height - self.view.bounds.height/3)
+          teacherImageView.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height - self.view.bounds.height/3.6)
           // UIImageViewをViewに追加する.
           self.view.addSubview(teacherImageView)
           
           // Teacher Name
           let teacherPhoto = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-          teacherPhoto.backgroundColor = UIColor.redColor()
+          //teacherPhoto.backgroundColor = UIColor.redColor()
+          teacherPhoto.setTitleColor(self.primaryText, forState: .Normal)
           teacherPhoto.layer.masksToBounds = true
           teacherPhoto.setTitle(JSON(teacher["name"]).toString(pretty: true), forState: .Normal)
           teacherPhoto.layer.cornerRadius = 10.0
-          teacherPhoto.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/4.5)
+          teacherPhoto.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/5.6)
           self.view.addSubview(teacherPhoto)
           
           // Topic表示用
@@ -353,12 +357,13 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   
   func createTopicButton(){
     // トピック表示ボタンの生成.
-    let myButton = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
-    myButton.backgroundColor = UIColor.blackColor()
+    let myButton = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+    myButton.backgroundColor = accentColor
+    myButton.setTitleColor(textIcons, forState: .Normal)
     myButton.layer.masksToBounds = true
-    myButton.setTitle("到着！", forState: .Normal)
+    myButton.setTitle("Get arrived!", forState: .Normal)
     myButton.layer.cornerRadius = 5.0
-    myButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7)
+    myButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/8.3)
     myButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
     self.view.addSubview(myButton)
     
