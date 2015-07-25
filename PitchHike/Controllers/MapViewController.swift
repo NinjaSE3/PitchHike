@@ -360,6 +360,16 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     myButton.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/1.50)
     myButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
     self.view.addSubview(myButton)
+    
+  }
+  //UIntに16進で数値をいれるとUIColorが戻る関数
+  func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+    return UIColor(
+      red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+      green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+      blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+      alpha: CGFloat(1.0)
+    )
   }
   
   // トピック表示ボタンイベントのセット.
