@@ -209,6 +209,11 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
           
         var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(pretty: true))
           
+          let teacherBackgroundView = UIButton(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height/4.5))
+          teacherBackgroundView.backgroundColor = self.textIcons
+          teacherBackgroundView.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height - self.view.bounds.height/5.8)
+          self.view.addSubview(teacherBackgroundView)
+          
           // TeacherPhoto
           // UIImageViewを作成する.
           let teacherImageView = UIImageView(frame: CGRectMake(0,0,100,100))
