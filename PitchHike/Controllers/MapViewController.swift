@@ -327,11 +327,11 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     locationManager.requestWhenInUseAuthorization()
 
     //利用者の顔
-    let appuserimgView = UIImageView(frame: CGRectMake(0,0,100,100))
+    let appuserimgView = UIImageView(frame: CGRectMake(0,0,75,75))
     var appuser:JSON = self.getUser("000001")
     let appuserimg = UIImage(data: self.getImage(JSON(appuser["image"]).toString(pretty: true)))
     appuserimgView.image = appuserimg
-    appuserimgView.layer.position = CGPoint(x: 50, y: 120)
+    appuserimgView.layer.position = CGPoint(x: 50, y: 110)
     self.view.addSubview(appuserimgView)
     
     mapView.delegate = self
