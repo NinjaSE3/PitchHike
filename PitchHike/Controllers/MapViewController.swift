@@ -181,7 +181,23 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
         //AppDelegateのインスタンスを取得
         var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         if(appDelegate._screen == "Matching"){
-          //ここでお願いします。
+          
+        //マッチした先生の情報取得
+        let usrTmp = appDelegate._userId
+        let usrId = self.getUser(usrTmp!)
+        println(usrId)
+        
+        //マッチした先生の情報表示
+        self.addressLabel.unlock()
+        let lines = usrId["name"].toString(pretty: true)
+        self.addressLabel.text = "\(lines)"
+          
+        let labelHeight = self.addressLabel.intrinsicContentSize().height
+        self.mapView.padding = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: labelHeight, right: 0)
+          UIView.animateWithDuration(0.25) {
+            self.pinImageVerticalConstraint.constant = ((labelHeight - self.topLayoutGuide.length) * 0.5)
+            self.view.layoutIfNeeded()
+          }
         }
       }
     }
@@ -227,6 +243,22 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     searchedTypes = sorted(controller.selectedTypes)
     dismissViewControllerAnimated(true, completion: nil)
     fetchNearbyPlaces(mapView.camera.target)
+  }
+  
+  func getRequestStatus(_id:String) -> JSON{
+    var getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id="+_id
+    let requestStatusRes = JSON(url: getRequestStatusURL)
+    println(getRequestStatusURL)
+    println(requestStatusRes)
+    return requestStatusRes
+  }
+  
+  func getUser(requestUserId:String) -> JSON{
+    var userReq = "http://52.8.212.125/getUser?userid=" + requestUserId
+    let user = JSON(url: userReq)
+    println(userReq)
+    println(user)
+    return user
   }
   
   

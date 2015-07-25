@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var _requestStatusID:String?
   var _error:String?
   var _screen:String?
+  var _userId:String?
   
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
