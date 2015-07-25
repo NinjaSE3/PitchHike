@@ -325,6 +325,15 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     
     locationManager.delegate = self
     locationManager.requestWhenInUseAuthorization()
+
+    //利用者の顔
+    let appuserimgView = UIImageView(frame: CGRectMake(0,0,100,100))
+    var appuser:JSON = self.getUser("000001")
+    let appuserimg = UIImage(data: self.getImage(JSON(appuser["image"]).toString(pretty: true)))
+    appuserimgView.image = appuserimg
+    appuserimgView.layer.position = CGPoint(x: 50, y: 120)
+    self.view.addSubview(appuserimgView)
+    
     mapView.delegate = self
   }
   
@@ -407,6 +416,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     var getImageRes :NSData = NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &err)!;
     return getImageRes
   }
+
   
   //プレゼン用の偽装コード　使い終わったら必ず消すこと！！
   func responseTeacher(userid:String,requestStatusID:String) -> JSON{
