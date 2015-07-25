@@ -60,14 +60,14 @@ class StartViewController: UIViewController {
     
     // ピッチを開始リクエスト
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    var startPitch:JSON = self.startPitching(appDelegate._requestStatusID)
+    var startPitch:JSON = self.startPitching(appDelegate._requestStatusID!)
 //    var startPitch:JSON = self.startPitching("559b673c6a97fd654ea0955f")
     
     // 互いに開始を押すまで繰り返す。
     // 現在日時を取得
     var date1 = NSDate()
     while(true){
-      var startPitch:JSON = self.startPitching(appDelegate._requestStatusID)
+      var startPitch:JSON = self.startPitching(appDelegate._requestStatusID!)
 //      var startPitch:JSON = self.startPitching("559b673c6a97fd654ea0955f")
 
       println(startPitch["status"])
