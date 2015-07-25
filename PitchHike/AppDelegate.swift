@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     GMSServices.provideAPIKey(googleMapsApiKey)
     
     // ViewControllerを生成する.
-    let firstViewController: PitchViewController = PitchViewController()
+    let firstViewController: TopicsViewController = TopicsViewController()
     // UIWindowを生成する.
     self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
     // rootViewControllerにNatigationControllerを設定する.
