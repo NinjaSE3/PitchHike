@@ -15,6 +15,16 @@ class StartViewController: UIViewController {
   //時間表示用のラベル.
   var myLabel : UILabel!
   
+  // 配色
+  private var secondaryText:UIColor!
+  private var primaryText:UIColor!
+  private var accentColor:UIColor!
+  private var darkPrimaryColor:UIColor!
+  private var primaryColor:UIColor!
+  private var lightPrimaryColor:UIColor!
+  private var textIcons:UIColor!
+  private var dividerColor:UIColor!
+  
   // Tableで使用する配列を設定する
   private var topicItems: [String] = [];
   private var myTableView: UITableView!
@@ -24,6 +34,15 @@ class StartViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    secondaryText = UIColorFromRGB(0x727272);
+    primaryText = UIColorFromRGB(0x212121);
+    accentColor = UIColorFromRGB(0xFF4081);
+    darkPrimaryColor = UIColorFromRGB(0x0288D1);
+    primaryColor = UIColorFromRGB(0x03A9F4);
+    lightPrimaryColor = UIColorFromRGB(0xB3E5FC);
+    textIcons = UIColorFromRGB(0xF8F8F8);
+    dividerColor = UIColorFromRGB(0xB6B6B6);
+    
     self.createTimerView()
     self.createStartButton()
     self.createMatchingView()
@@ -32,7 +51,7 @@ class StartViewController: UIViewController {
   func createTimerView(){
     //ラベルを作る.
     myLabel = UILabel(frame: CGRectMake(0,0,self.view.bounds.width,40))
-    myLabel.backgroundColor = UIColor.blackColor()
+    myLabel.backgroundColor = primaryColor
     myLabel.layer.masksToBounds = true
     myLabel.text = "Time:".stringByAppendingFormat("%.0f",limtime)
     myLabel.textColor = UIColor.whiteColor()
@@ -45,11 +64,11 @@ class StartViewController: UIViewController {
   func createStartButton(){
     // ボタンの生成.
     let myButton = UIButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
-    myButton.backgroundColor = UIColor.orangeColor()
+    myButton.backgroundColor = accentColor
     myButton.layer.masksToBounds = true
     myButton.setTitle("START", forState: .Normal)
     myButton.layer.cornerRadius = 5.0
-    myButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height/1.2)
+    myButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height/2.4)
     myButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
     self.view.addSubview(myButton)
   }
@@ -91,7 +110,7 @@ class StartViewController: UIViewController {
       // 遷移するViewを定義する.
       let pitchViewController: UIViewController = PitchViewController()
       // アニメーションを設定する.
-      pitchViewController.modalTransitionStyle = UIModalTransitionStyle.CoverVertical
+      pitchViewController.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
       // Viewの移動する.
       self.presentViewController(pitchViewController, animated: true, completion: nil)
     }else{
@@ -119,17 +138,18 @@ class StartViewController: UIViewController {
     // 画像をUIImageViewに設定する.
     studentImageView.image = studentImage
     // 画像の表示する座標を指定する.
-    studentImageView.layer.position = CGPoint(x: self.view.bounds.width/3, y: self.view.bounds.height/2)
+    studentImageView.layer.position = CGPoint(x: self.view.bounds.width/3.2, y: self.view.bounds.height/4.2)
     // UIImageViewをViewに追加する.
     self.view.addSubview(studentImageView)
     
     // Strudent Name
     let studentName = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-    studentName.backgroundColor = UIColor.blueColor()
+    //studentName.backgroundColor = UIColor.blueColor()
+    studentName.setTitleColor(primaryText, forState: .Normal)
     studentName.layer.masksToBounds = true
     studentName.setTitle(JSON(student["name"]).toString(pretty: true), forState: .Normal)
     studentName.layer.cornerRadius = 10.0
-    studentName.layer.position = CGPoint(x: self.view.bounds.width/3, y:self.view.bounds.height/1.65)
+    studentName.layer.position = CGPoint(x: self.view.bounds.width/3.2, y:self.view.bounds.height/3)
     self.view.addSubview(studentName)
     
     // TeacherPhoto
@@ -140,17 +160,18 @@ class StartViewController: UIViewController {
     // 画像をUIImageViewに設定する.
     teacherImageView.image = teacherImage
     // 画像の表示する座標を指定する.
-    teacherImageView.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y: self.view.bounds.height/2)
+    teacherImageView.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3.2, y: self.view.bounds.height/4.2)
     // UIImageViewをViewに追加する.
     self.view.addSubview(teacherImageView)
     
     // Teacher Name
     let teacherName = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-    teacherName.backgroundColor = UIColor.redColor()
+    //teacherName.backgroundColor = UIColor.redColor()
+    teacherName.setTitleColor(primaryText, forState: .Normal)
     teacherName.layer.masksToBounds = true
     teacherName.setTitle(JSON(teacher["name"]).toString(pretty: true), forState: .Normal)
     teacherName.layer.cornerRadius = 10.0
-    teacherName.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/1.65)
+    teacherName.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3.2, y:self.view.bounds.height/3)
     self.view.addSubview(teacherName)
     
   }

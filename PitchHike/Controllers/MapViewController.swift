@@ -25,6 +25,15 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   var totalDistance: String!
   var totalDuration: String!
   
+  // 配色
+  private var secondaryText:UIColor!
+  private var primaryText:UIColor!
+  private var accentColor:UIColor!
+  private var darkPrimaryColor:UIColor!
+  private var primaryColor:UIColor!
+  private var lightPrimaryColor:UIColor!
+  private var textIcons:UIColor!
+  private var dividerColor:UIColor!
   
   var randomLineColor: UIColor {
     get {
@@ -294,6 +303,16 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    secondaryText = UIColorFromRGB(0x727272);
+    primaryText = UIColorFromRGB(0x212121);
+    accentColor = UIColorFromRGB(0xFF4081);
+    darkPrimaryColor = UIColorFromRGB(0x0288D1);
+    primaryColor = UIColorFromRGB(0x03A9F4);
+    lightPrimaryColor = UIColorFromRGB(0xB3E5FC);
+    textIcons = UIColorFromRGB(0xF8F8F8);
+    dividerColor = UIColorFromRGB(0xB6B6B6);
+    
     locationManager.delegate = self
     locationManager.requestWhenInUseAuthorization()
     mapView.delegate = self

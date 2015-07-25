@@ -23,17 +23,27 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   private var studentImageView: UIImageView!
   private var teacherImageView: UIImageView!
   
+  // 配色
+  private var secondaryText:UIColor!
+  private var primaryText:UIColor!
+  private var accentColor:UIColor!
+  private var darkPrimaryColor:UIColor!
+  private var primaryColor:UIColor!
+  private var lightPrimaryColor:UIColor!
+  private var textIcons:UIColor!
+  private var dividerColor:UIColor!
+  
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    var secondaryText:UIColor  = UIColorFromRGB(0x727272);
-    var primaryText:UIColor  = UIColorFromRGB(0x212121);
-    var accentColor:UIColor  = UIColorFromRGB(0xFF4081);
-    var darkPrimaryColor:UIColor  = UIColorFromRGB(0x0288D1);
-    var primaryColor:UIColor  = UIColorFromRGB(0x03A9F4);
-    var lightPrimaryColor:UIColor  = UIColorFromRGB(0xB3E5FC);
-    var textIcons:UIColor  = UIColorFromRGB(0xFFFFFF);
-    var dividerColor:UIColor = UIColorFromRGB(0xB6B6B6);
+    secondaryText = UIColorFromRGB(0x727272);
+    primaryText = UIColorFromRGB(0x212121);
+    accentColor = UIColorFromRGB(0xFF4081);
+    darkPrimaryColor = UIColorFromRGB(0x0288D1);
+    primaryColor = UIColorFromRGB(0x03A9F4);
+    lightPrimaryColor = UIColorFromRGB(0xB3E5FC);
+    textIcons = UIColorFromRGB(0xF8F8F8);
+    dividerColor = UIColorFromRGB(0xB6B6B6);
     
     self.createTimerView()
     self.createStartButton()
@@ -56,7 +66,7 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     let displayWidth: CGFloat = self.view.frame.width
     let displayHeight: CGFloat = self.view.frame.height/2
     // TableViewの生成する(status barの高さ分ずらして表示).
-    myTableView = UITableView(frame: CGRect(x:0 , y: displayHeight, width: displayWidth, height: displayHeight - barHeight))
+    myTableView = UITableView(frame: CGRect(x:0 , y: displayHeight, width: displayWidth, height: displayHeight - barHeight + 20))
     // Cell名の登録をおこなう.
     myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "MyCell")
     // DataSourceの設定をする.
@@ -70,7 +80,7 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   func createTimerView(){
     //ラベルを作る.
     myLabel = UILabel(frame: CGRectMake(0,0,self.view.bounds.width,40))
-    myLabel.backgroundColor = UIColorFromRGB(0xB6B6B6)
+    myLabel.backgroundColor = primaryColor
     myLabel.layer.masksToBounds = true
     myLabel.text = "Time:".stringByAppendingFormat("%.0f",limtime)
     myLabel.textColor = UIColor.whiteColor()
@@ -83,11 +93,11 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   func createStartButton(){
     // ボタンの生成.
     let myButton = UIButton(frame: CGRect(x: 0, y: 0, width: 150, height: 40))
-    myButton.backgroundColor = UIColor.orangeColor()
+    myButton.backgroundColor = accentColor
     myButton.layer.masksToBounds = true
     myButton.setTitle("END", forState: .Normal)
     myButton.layer.cornerRadius = 5.0
-    myButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height/2.5)
+    myButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height/2.4)
     myButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
     self.view.addSubview(myButton)
   }
@@ -155,18 +165,19 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     // 画像をUIImageViewに設定する.
     studentImageView.image = studentImage
     // 画像の表示する座標を指定する.
-    studentImageView.layer.position = CGPoint(x: self.view.bounds.width/4, y: self.view.bounds.height/5)
+    studentImageView.layer.position = CGPoint(x: self.view.bounds.width/3.2, y: self.view.bounds.height/4.2)
     // UIImageViewをViewに追加する.
     self.view.addSubview(studentImageView)
     
     
     // StudentName
     let studentName = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-    studentName.backgroundColor = UIColor.blueColor()
+    //studentName.backgroundColor = textIcons
+    studentName.setTitleColor(primaryText, forState: .Normal)
     studentName.layer.masksToBounds = true
     studentName.setTitle(JSON(student["name"]).toString(pretty: true), forState: .Normal)
     studentName.layer.cornerRadius = 10.0
-    studentName.layer.position = CGPoint(x: self.view.bounds.width/4, y:self.view.bounds.height/3.4)
+    studentName.layer.position = CGPoint(x: self.view.bounds.width/3.2, y:self.view.bounds.height/3)
     self.view.addSubview(studentName)
     
     // TeacherPhoto
@@ -177,17 +188,18 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     // 画像をUIImageViewに設定する.
     teacherImageView.image = teacherImage
     // 画像の表示する座標を指定する.
-    teacherImageView.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/4, y: self.view.bounds.height/5)
+    teacherImageView.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3.2, y: self.view.bounds.height/4.2)
     // UIImageViewをViewに追加する.
     self.view.addSubview(teacherImageView)
     
     // TeacherName
     let teacherName = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-    teacherName.backgroundColor = UIColor.redColor()
+    //teacherName.backgroundColor = textIcons
+    teacherName.setTitleColor(primaryText, forState: .Normal)
     teacherName.layer.masksToBounds = true
     teacherName.setTitle(JSON(teacher["name"]).toString(pretty: true), forState: .Normal)
     teacherName.layer.cornerRadius = 10.0
-    teacherName.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/4, y:self.view.bounds.height/3.4)
+    teacherName.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3.2, y:self.view.bounds.height/3)
     self.view.addSubview(teacherName)
   }
   
@@ -218,12 +230,15 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     
     // Cellに値を設定する.
     cell.textLabel!.text = "\(topicItems[indexPath.row])"
+    // Cellにデザインを適用する
+    cell.textLabel?.textColor = secondaryText
+    cell.backgroundColor = textIcons
     
     return cell
   }
   
-  func getRequestStatus(requestStatus:String) -> JSON{
-    var getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatus
+  func getRequestStatus(requestStatusID:String) -> JSON{
+    var getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatusID
     let requestStatus = JSON(url: getRequestStatusURL)
     println(getRequestStatusURL)
     println(requestStatus)
