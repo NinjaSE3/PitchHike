@@ -20,13 +20,27 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   private var topicItems: [String] = [];
   private var myTableView: UITableView!
   
+  private var studentImageView: UIImageView!
+  private var teacherImageView: UIImageView!
+  
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    var secondaryText:UIColor  = UIColorFromRGB(0x727272);
+    var primaryText:UIColor  = UIColorFromRGB(0x212121);
+    var accentColor:UIColor  = UIColorFromRGB(0xFF4081);
+    var darkPrimaryColor:UIColor  = UIColorFromRGB(0x0288D1);
+    var primaryColor:UIColor  = UIColorFromRGB(0x03A9F4);
+    var lightPrimaryColor:UIColor  = UIColorFromRGB(0xB3E5FC);
+    var textIcons:UIColor  = UIColorFromRGB(0xFFFFFF);
+    var dividerColor:UIColor = UIColorFromRGB(0xB6B6B6);
+    
     self.createTimerView()
     self.createStartButton()
     self.createMatchingView()
     self.createTopicView()
     self.start()
+    
   }
   
   func createTopicView(){
@@ -56,7 +70,7 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   func createTimerView(){
     //ラベルを作る.
     myLabel = UILabel(frame: CGRectMake(0,0,self.view.bounds.width,40))
-    myLabel.backgroundColor = UIColor.blackColor()
+    myLabel.backgroundColor = UIColorFromRGB(0xB6B6B6)
     myLabel.layer.masksToBounds = true
     myLabel.text = "Time:".stringByAppendingFormat("%.0f",limtime)
     myLabel.textColor = UIColor.whiteColor()
@@ -107,8 +121,8 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   
   func finishPitch(){
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    var finishPitching:JSON = self.finishPitching(appDelegate._requestStatusID!)
-//    var finishPitching:JSON = self.finishPitching("559b673c6a97fd654ea0955f")
+//    var finishPitching:JSON = self.finishPitching(appDelegate._requestStatusID!)
+    var finishPitching:JSON = self.finishPitching("559b673c6a97fd654ea0955f")
     
     if(finishPitching["status"].toString(pretty: true) == "finish"){
       // 遷移するViewを定義する.
@@ -124,33 +138,57 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   func createMatchingView(){
     //AppDelegateのインスタンスを取得
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    var requestStatus = appDelegate._requestStatusID
-//    var requestStatus = "559b673c6a97fd654ea0955f"
+//    var requestStatus = appDelegate._requestStatusID
+    var requestStatus = "559b673c6a97fd654ea0955f"
     println(requestStatus)
     
-    var student:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["student"]).toString(pretty: true))
+    var student:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus)["student"]).toString(pretty: true))
     
-    var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(pretty: true))
+    var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus)["teacher"]).toString(pretty: true))
     
     
     // StudentPhoto
-    let studentPhoto = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-    studentPhoto.backgroundColor = UIColor.blackColor()
-    studentPhoto.layer.masksToBounds = true
-    studentPhoto.setTitle(JSON(student["name"]).toString(pretty: true), forState: .Normal)
-    studentPhoto.layer.cornerRadius = 50.0
-    studentPhoto.layer.position = CGPoint(x: self.view.bounds.width/4, y:self.view.bounds.height/5)
-    self.view.addSubview(studentPhoto)
+    // UIImageViewを作成する.
+    studentImageView = UIImageView(frame: CGRectMake(0,0,100,100))
+    // 表示する画像を設定する.
+    let studentImage = UIImage(data: self.getImage(JSON(student["image"]).toString(pretty: true)))
+    // 画像をUIImageViewに設定する.
+    studentImageView.image = studentImage
+    // 画像の表示する座標を指定する.
+    studentImageView.layer.position = CGPoint(x: self.view.bounds.width/4, y: self.view.bounds.height/5)
+    // UIImageViewをViewに追加する.
+    self.view.addSubview(studentImageView)
+    
+    
+    // StudentName
+    let studentName = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+    studentName.backgroundColor = UIColor.blueColor()
+    studentName.layer.masksToBounds = true
+    studentName.setTitle(JSON(student["name"]).toString(pretty: true), forState: .Normal)
+    studentName.layer.cornerRadius = 10.0
+    studentName.layer.position = CGPoint(x: self.view.bounds.width/4, y:self.view.bounds.height/3.4)
+    self.view.addSubview(studentName)
     
     // TeacherPhoto
-    let teacherPhoto = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-    teacherPhoto.backgroundColor = UIColor.redColor()
-    teacherPhoto.layer.masksToBounds = true
-    teacherPhoto.setTitle(JSON(teacher["name"]).toString(pretty: true), forState: .Normal)
-    teacherPhoto.layer.cornerRadius = 50.0
-    teacherPhoto.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/4, y:self.view.bounds.height/5)
-    self.view.addSubview(teacherPhoto)
+    // UIImageViewを作成する.
+    teacherImageView = UIImageView(frame: CGRectMake(0,0,100,100))
+    // 表示する画像を設定する.
+    let teacherImage = UIImage(data: self.getImage(JSON(teacher["image"]).toString(pretty: true)))
+    // 画像をUIImageViewに設定する.
+    teacherImageView.image = teacherImage
+    // 画像の表示する座標を指定する.
+    teacherImageView.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/4, y: self.view.bounds.height/5)
+    // UIImageViewをViewに追加する.
+    self.view.addSubview(teacherImageView)
     
+    // TeacherName
+    let teacherName = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+    teacherName.backgroundColor = UIColor.redColor()
+    teacherName.layer.masksToBounds = true
+    teacherName.setTitle(JSON(teacher["name"]).toString(pretty: true), forState: .Normal)
+    teacherName.layer.cornerRadius = 10.0
+    teacherName.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/4, y:self.view.bounds.height/3.4)
+    self.view.addSubview(teacherName)
   }
   
   /*
@@ -216,6 +254,22 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     return finishPitchingRes
   }
   
+  func getImage(image:String)->NSData{
+    let url = NSURL(string: "http://52.8.212.125/getImage?url=" + image);
+    var err: NSError?;
+    var getImageRes :NSData = NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &err)!;
+    return getImageRes
+  }
+  
+  //UIntに16進で数値をいれるとUIColorが戻る関数
+  func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+    return UIColor(
+      red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+      green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+      blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+      alpha: CGFloat(1.0)
+    )
+  }
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()

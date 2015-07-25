@@ -60,15 +60,15 @@ class StartViewController: UIViewController {
     
     // ピッチを開始リクエスト
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    var startPitch:JSON = self.startPitching(appDelegate._requestStatusID!)
-//    var startPitch:JSON = self.startPitching("559b673c6a97fd654ea0955f")
+//    var startPitch:JSON = self.startPitching(appDelegate._requestStatusID!)
+    var startPitch:JSON = self.startPitching("559b673c6a97fd654ea0955f")
     
     // 互いに開始を押すまで繰り返す。
     // 現在日時を取得
     var date1 = NSDate()
     while(true){
-      var startPitch:JSON = self.startPitching(appDelegate._requestStatusID!)
-//      var startPitch:JSON = self.startPitching("559b673c6a97fd654ea0955f")
+//      var startPitch:JSON = self.startPitching(appDelegate._requestStatusID!)
+      var startPitch:JSON = self.startPitching("559b673c6a97fd654ea0955f")
 
       println(startPitch["status"])
       
@@ -79,7 +79,7 @@ class StartViewController: UIViewController {
       println(time)
       
       var status:String = startPitch["status"].toString(pretty: true)
-      if( startPitch["status"].toString(pretty: true) == "start" ){
+      if( startPitch["status"].toString(pretty: true) == "finish" ){
         break
       }
       if(time > Float(5)){
@@ -103,13 +103,13 @@ class StartViewController: UIViewController {
   func createMatchingView(){
     //AppDelegateのインスタンスを取得
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    var requestStatus = appDelegate._requestStatusID
-//    var requestStatus = "559b673c6a97fd654ea0955f"
+//    var requestStatus = appDelegate._requestStatusID
+    var requestStatus = "559b673c6a97fd654ea0955f"
     println(requestStatus)
     
-    var student:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["student"]).toString(pretty: true))
+    var student:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus)["student"]).toString(pretty: true))
     
-    var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(pretty: true))
+    var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus)["teacher"]).toString(pretty: true))
     
     // StudentPhoto
     // UIImageViewを作成する.
@@ -124,13 +124,13 @@ class StartViewController: UIViewController {
     self.view.addSubview(studentImageView)
     
     // Strudent Name
-    let studentPhoto = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-    studentPhoto.backgroundColor = UIColor.blueColor()
-    studentPhoto.layer.masksToBounds = true
-    studentPhoto.setTitle(JSON(student["name"]).toString(pretty: true), forState: .Normal)
-    studentPhoto.layer.cornerRadius = 10.0
-    studentPhoto.layer.position = CGPoint(x: self.view.bounds.width/3, y:self.view.bounds.height/1.65)
-    self.view.addSubview(studentPhoto)
+    let studentName = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+    studentName.backgroundColor = UIColor.blueColor()
+    studentName.layer.masksToBounds = true
+    studentName.setTitle(JSON(student["name"]).toString(pretty: true), forState: .Normal)
+    studentName.layer.cornerRadius = 10.0
+    studentName.layer.position = CGPoint(x: self.view.bounds.width/3, y:self.view.bounds.height/1.65)
+    self.view.addSubview(studentName)
     
     // TeacherPhoto
     // UIImageViewを作成する.
@@ -145,13 +145,13 @@ class StartViewController: UIViewController {
     self.view.addSubview(teacherImageView)
     
     // Teacher Name
-    let teacherPhoto = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
-    teacherPhoto.backgroundColor = UIColor.redColor()
-    teacherPhoto.layer.masksToBounds = true
-    teacherPhoto.setTitle(JSON(teacher["name"]).toString(pretty: true), forState: .Normal)
-    teacherPhoto.layer.cornerRadius = 10.0
-    teacherPhoto.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/1.65)
-    self.view.addSubview(teacherPhoto)
+    let teacherName = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+    teacherName.backgroundColor = UIColor.redColor()
+    teacherName.layer.masksToBounds = true
+    teacherName.setTitle(JSON(teacher["name"]).toString(pretty: true), forState: .Normal)
+    teacherName.layer.cornerRadius = 10.0
+    teacherName.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/1.65)
+    self.view.addSubview(teacherName)
     
   }
   
@@ -184,6 +184,16 @@ class StartViewController: UIViewController {
     var err: NSError?;
     var getImageRes :NSData = NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &err)!;
     return getImageRes
+  }
+  
+  //UIntに16進で数値をいれるとUIColorが戻る関数
+  func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+    return UIColor(
+      red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+      green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+      blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+      alpha: CGFloat(1.0)
+    )
   }
 
   override func didReceiveMemoryWarning() {
