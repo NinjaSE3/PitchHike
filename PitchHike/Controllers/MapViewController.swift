@@ -10,6 +10,8 @@ import UIKit
 
 class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLLocationManagerDelegate, GMSMapViewDelegate {
   
+  private var teacherImageView: UIImageView!
+  
   @IBOutlet weak var addressLabel: UILabel!
   @IBOutlet weak var mapView: GMSMapView!
   @IBOutlet weak var mapCenterPinImage: UIImageView!
@@ -173,29 +175,55 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
         var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         if(appDelegate._screen == "Matching"){
           
-        //マッチした先生の情報取得
-        let usrTmp = appDelegate._userId
-        let usrId = self.getUser(usrTmp!)
-        println(usrId)
-        
+//        //マッチした先生の情報取得
+//        let usrTmp = appDelegate._userId
+//        let usrId = self.getUser(usrTmp!)
+//        println(usrId)
+//          
+//        //マッチした先生の情報表示
+//        self.addressLabel.unlock()
+//        
+//        let lines = usrId["name"].toString(pretty: true)
+//        self.addressLabel.text = "\(lines)"
+//        
+//        let labelHeight = self.addressLabel.intrinsicContentSize().height
+//        self.mapView.padding = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: labelHeight, right: 0)
           
+        //
+        var requestStatus = appDelegate._requestStatusID
+          //    var requestStatus = "559b673c6a97fd654ea0955f"
+          println(requestStatus)
           
-        //マッチした先生の情報表示
-        self.addressLabel.unlock()
-        
-        let lines = usrId["name"].toString(pretty: true)
-        self.addressLabel.text = "\(lines)"
-        
-        let labelHeight = self.addressLabel.intrinsicContentSize().height
-        self.mapView.padding = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: labelHeight, right: 0)
+        var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(pretty: true))
           
+          // TeacherPhoto
+          // UIImageViewを作成する.
+          let teacherImageView = UIImageView(frame: CGRectMake(0,0,100,100))
+          // 表示する画像を設定する.
+          let teacherImage = UIImage(data: self.getImage(JSON(teacher["image"]).toString(pretty: true)))
+          // 画像をUIImageViewに設定する.
+          teacherImageView.image = teacherImage
+          // 画像の表示する座標を指定する.
+          teacherImageView.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y: self.view.bounds.height/2)
+          // UIImageViewをViewに追加する.
+          self.view.addSubview(teacherImageView)
           
-        self.createTeacherButton(lines)
+          // Teacher Name
+          let teacherPhoto = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+          teacherPhoto.backgroundColor = UIColor.redColor()
+          teacherPhoto.layer.masksToBounds = true
+          teacherPhoto.setTitle(JSON(teacher["name"]).toString(pretty: true), forState: .Normal)
+          teacherPhoto.layer.cornerRadius = 10.0
+          teacherPhoto.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/1.65)
+          self.view.addSubview(teacherPhoto)
           
-          UIView.animateWithDuration(0.25) {
-            self.pinImageVerticalConstraint.constant = ((labelHeight - self.topLayoutGuide.length) * 0.5)
-            self.view.layoutIfNeeded()
-          }
+          // Topic表示用
+          self.createTopicButton()
+          
+//          UIView.animateWithDuration(0.25) {
+//            self.pinImageVerticalConstraint.constant = ((labelHeight - self.topLayoutGuide.length) * 0.5)
+//            self.view.layoutIfNeeded()
+//          }
         }
       }
     }
@@ -207,6 +235,18 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     if (gesture) {
       mapCenterPinImage.fadeIn(0.25)
       mapView.selectedMarker = nil
+      
+      let views = self.view.subviews
+      for (myView: UIView) in views as! [UIView] {
+        println("View:\(myView.description)")
+        
+        if myView.isKindOfClass(UIButton) {
+          myView.removeFromSuperview()
+        }
+//        if myView.isEqual() {
+//          myView.removeFromSuperview()
+//        }
+      }
     }
   }
   
@@ -259,21 +299,28 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     return user
   }
   
-  func createTeacherButton(tName:String){
-    // 先生プロフィール表示ボタンの生成.
-    let myButton = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+  func createTopicButton(){
+    // トピック表示ボタンの生成.
+    let myButton = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
     myButton.backgroundColor = UIColor.blackColor()
     myButton.layer.masksToBounds = true
-    myButton.setTitle(tName, forState: .Normal)
-    myButton.layer.cornerRadius = 50.0
-    myButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height/2)
+    myButton.setTitle("トピック表示", forState: .Normal)
+    myButton.layer.cornerRadius = 5.0
+    myButton.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/1.50)
     myButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
     self.view.addSubview(myButton)
   }
   
-  // 先生プロフィール表示ボタンイベントのセット.
+  // トピック表示ボタンイベントのセット.
   func onClickMyButton(sender: UIButton){
     // TODO
+  }
+  
+  func getImage(image:String)->NSData{
+    let url = NSURL(string: "http://52.8.212.125/getImage?url=" + image);
+    var err: NSError?;
+    var getImageRes :NSData = NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &err)!;
+    return getImageRes
   }
   
   
