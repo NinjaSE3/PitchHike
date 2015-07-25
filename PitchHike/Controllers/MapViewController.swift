@@ -10,14 +10,7 @@ import UIKit
 
 class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLLocationManagerDelegate, GMSMapViewDelegate {
   
-  //  @IBAction func TeacherSearch(sender: AnyObject) {
-  //
-  //    locationManager.delegate = self
-  //    locationManager.requestWhenInUseAuthorization()
-  //
-  //    println("位置情報取得後の処理記述");
-  //
-  //    }
+  private var teacherImageView: UIImageView!
   
   @IBOutlet weak var addressLabel: UILabel!
   @IBOutlet weak var mapView: GMSMapView!
@@ -63,6 +56,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   func fetchNearbyPlaces(coordinate: CLLocationCoordinate2D) {
     // 1
     mapView.clear()
+    
     // 2
     dataProvider.fetchPlacesNearCoordinate(coordinate, radius:mapRadius, types: searchedTypes) { places in
       for place: GooglePlace in places {
@@ -191,22 +185,86 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
         var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         if(appDelegate._screen == "Matching"){
           
-        //マッチした先生の情報取得
-        let usrTmp = appDelegate._userId
-        let usrId = self.getUser(usrTmp!)
-        println(usrId)
-        
-        //マッチした先生の情報表示
-        self.addressLabel.unlock()
-        let lines = usrId["name"].toString(pretty: true)
-        self.addressLabel.text = "\(lines)"
+//        //マッチした先生の情報取得
+//        let usrTmp = appDelegate._userId
+//        let usrId = self.getUser(usrTmp!)
+//        println(usrId)
+//          
+//        //マッチした先生の情報表示
+//        self.addressLabel.unlock()
+//        
+//        let lines = usrId["name"].toString(pretty: true)
+//        self.addressLabel.text = "\(lines)"
+//        
+//        let labelHeight = self.addressLabel.intrinsicContentSize().height
+//        self.mapView.padding = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: labelHeight, right: 0)
           
-        let labelHeight = self.addressLabel.intrinsicContentSize().height
-        self.mapView.padding = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: labelHeight, right: 0)
-          UIView.animateWithDuration(0.25) {
-            self.pinImageVerticalConstraint.constant = ((labelHeight - self.topLayoutGuide.length) * 0.5)
-            self.view.layoutIfNeeded()
-          }
+        //
+        var requestStatus = appDelegate._requestStatusID
+          //    var requestStatus = "559b673c6a97fd654ea0955f"
+          println(requestStatus)
+          
+        var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(pretty: true))
+          
+          // TeacherPhoto
+          // UIImageViewを作成する.
+          let teacherImageView = UIImageView(frame: CGRectMake(0,0,100,100))
+          // 表示する画像を設定する.
+          let teacherImage = UIImage(data: self.getImage(JSON(teacher["image"]).toString(pretty: true)))
+          // 画像をUIImageViewに設定する.
+          teacherImageView.image = teacherImage
+          // 画像の表示する座標を指定する.
+          teacherImageView.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y: self.view.bounds.height/2)
+          // UIImageViewをViewに追加する.
+          self.view.addSubview(teacherImageView)
+          
+          // Teacher Name
+          let teacherPhoto = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+          teacherPhoto.backgroundColor = UIColor.redColor()
+          teacherPhoto.layer.masksToBounds = true
+          teacherPhoto.setTitle(JSON(teacher["name"]).toString(pretty: true), forState: .Normal)
+          teacherPhoto.layer.cornerRadius = 10.0
+          teacherPhoto.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/1.65)
+          self.view.addSubview(teacherPhoto)
+          
+          // Topic表示用
+          self.createTopicButton()
+          
+          // 到着時間表示用
+          //var arvTime:JSON = self.getArrivedTime(JSON(requestStatus))
+          
+          // 到着時間表示
+//          let arvTimeButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+//          arvTimeButton.backgroundColor = UIColor.redColor()
+//          arvTimeButton.layer.masksToBounds = true
+//          arvTimeButton.setTitle(JSON(arvTime["arrive"]).toString(pretty: true), forState: .Normal)
+//          arvTimeButton.layer.cornerRadius = 10.0
+//          arvTimeButton.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/1.4)
+//          self.view.addSubview(teacherPhoto)
+          
+          
+          //TODO 先生の位置情報取得して、画像表示
+//          println(teacher)
+//          println(teacher["location"][0])
+//          println(teacher["location"][1])
+//          
+//          let place: GooglePlace
+//          let coordinate: CLLocationCoordinate2D
+//          
+//          let lat = (JSON(teacher["location"][0]).toString(pretty: true) as! NSString).doubleValue as! CLLocationDegrees
+//          let lng = (JSON(teacher["location"][1]).toString(pretty: true) as! NSString).doubleValue as! CLLocationDegrees
+//          
+//          coordinate = CLLocationCoordinate2DMake(lat, lng)
+//          
+////          place.coordinate = coordinate
+//          let marker = GMSMarker(position: coordinate)
+//          marker.title = "test"
+//          marker.map = self.mapView
+          
+//          UIView.animateWithDuration(0.25) {
+//            self.pinImageVerticalConstraint.constant = ((labelHeight - self.topLayoutGuide.length) * 0.5)
+//            self.view.layoutIfNeeded()
+//          }
         }
       }
     }
@@ -218,6 +276,18 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     if (gesture) {
       mapCenterPinImage.fadeIn(0.25)
       mapView.selectedMarker = nil
+      
+      let views = self.view.subviews
+      for (myView: UIView) in views as! [UIView] {
+        println("View:\(myView.description)")
+        
+        if myView.isKindOfClass(UIButton) {
+          myView.removeFromSuperview()
+        }
+//        if myView.isEqual() {
+//          myView.removeFromSuperview()
+//        }
+      }
     }
   }
   
@@ -280,6 +350,18 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     return user
   }
   
+  func createTopicButton(){
+    // トピック表示ボタンの生成.
+    let myButton = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
+    myButton.backgroundColor = UIColor.blackColor()
+    myButton.layer.masksToBounds = true
+    myButton.setTitle("トピック表示", forState: .Normal)
+    myButton.layer.cornerRadius = 5.0
+    myButton.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/1.50)
+    myButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
+    self.view.addSubview(myButton)
+    
+  }
   //UIntに16進で数値をいれるとUIColorが戻る関数
   func UIColorFromRGB(rgbValue: UInt) -> UIColor {
     return UIColor(
@@ -288,6 +370,26 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
       blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
       alpha: CGFloat(1.0)
     )
+  }
+  
+  // トピック表示ボタンイベントのセット.
+  func onClickMyButton(sender: UIButton){
+    // TODO
+  }
+  
+  func getImage(image:String)->NSData{
+    let url = NSURL(string: "http://52.8.212.125/getImage?url=" + image);
+    var err: NSError?;
+    var getImageRes :NSData = NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &err)!;
+    return getImageRes
+  }
+  
+  func getArrivedTime(_id:String) -> JSON{
+    var getArrivedTimeURL = "http://52.8.212.125/updateArrive?_id="+_id
+    let requestStatusRes = JSON(url: getArrivedTimeURL)
+    println(getArrivedTimeURL)
+    println(requestStatusRes)
+    return requestStatusRes
   }
   
 }
