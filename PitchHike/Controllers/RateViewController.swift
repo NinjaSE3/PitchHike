@@ -57,7 +57,7 @@ class RateViewController: UIViewController {
     // 画像をUIImageViewに設定する.
     teacherImageView.image = teacherImage
     // 画像の表示する座標を指定する.
-    teacherImageView.layer.position = CGPoint(x: self.view.bounds.width/4, y: self.view.bounds.height/4)
+    teacherImageView.layer.position = CGPoint(x: self.view.bounds.width/3.6, y: self.view.bounds.height/3)
     // UIImageViewをViewに追加する.
     self.view.addSubview(teacherImageView)
     
@@ -67,68 +67,90 @@ class RateViewController: UIViewController {
     teacherName.layer.masksToBounds = true
     teacherName.setTitle(JSON(teacher["fullname"]).toString(pretty: true), forState: .Normal)
     teacherName.layer.cornerRadius = 10.0
-    teacherName.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/4)
+    teacherName.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/2.5, y:self.view.bounds.height/3)
     self.view.addSubview(teacherName)
     
     
-    var ratemsgLabel = UILabel(frame: CGRectMake(0,0,self.view.bounds.width,40))
-    ratemsgLabel.backgroundColor = primaryColor
-    ratemsgLabel.textColor = textIcons
+    var topLabel = UILabel(frame: CGRectMake(0,0,self.view.bounds.width,40))
+    topLabel.backgroundColor = primaryColor
+    topLabel.textColor = textIcons
+    topLabel.layer.masksToBounds = true
+    topLabel.text = "Finish"
+    topLabel.textAlignment = NSTextAlignment.Center
+    topLabel.layer.position = CGPoint(x: self.view.bounds.width/2,y: 50)
+    self.view.backgroundColor = UIColor.whiteColor()
+    self.view.addSubview(topLabel)
+    
+    var ratemsgLabel = UILabel(frame: CGRectMake(0,0,self.view.bounds.width,60))
+    ratemsgLabel.backgroundColor = lightPrimaryColor
+    ratemsgLabel.textColor = secondaryText
     ratemsgLabel.layer.masksToBounds = true
-    ratemsgLabel.text = "How about Pitch?"
+    ratemsgLabel.numberOfLines = 2;
+    ratemsgLabel.text = "Did you enjoy communication?\nPlease give your feedback."
     ratemsgLabel.textAlignment = NSTextAlignment.Center
-    ratemsgLabel.layer.position = CGPoint(x: self.view.bounds.width/2,y: 50)
+    ratemsgLabel.layer.position = CGPoint(x: self.view.bounds.width/2,y: 100)
     self.view.backgroundColor = UIColor.whiteColor()
     self.view.addSubview(ratemsgLabel)
     
   }
   
+  let rate1Star = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+  let rate2Star = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+  let rate3Star = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+  let rate4Star = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+  let rate5Star = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+  
   func createRateStar(){
     // Rate 1 Star
-    let rate1Star = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    rate1Star.setTitleColor(UIColor.redColor(), forState: .Normal)
+    //let rate1Star = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+    rate1Star.setTitleColor(secondaryText, forState: .Normal)
     rate1Star.layer.masksToBounds = true
     rate1Star.setTitle("★", forState: .Normal)
+    rate1Star.titleLabel!.font = UIFont.systemFontOfSize(CGFloat(40))
     rate1Star.layer.cornerRadius = 10.0
     rate1Star.layer.position = CGPoint(x: self.view.bounds.width/2 - 100, y:self.view.bounds.height/4 + 200)
     rate1Star.addTarget(self, action: "onClickRate1Star:", forControlEvents: .TouchUpInside)
     self.view.addSubview(rate1Star)
 
     // Rate 1 Star
-    let rate2Star = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    rate2Star.setTitleColor(UIColor.blueColor(), forState: .Normal)
+    //let rate2Star = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+    rate2Star.setTitleColor(secondaryText, forState: .Normal)
     rate2Star.layer.masksToBounds = true
     rate2Star.setTitle("★", forState: .Normal)
+    rate2Star.titleLabel!.font = UIFont.systemFontOfSize(CGFloat(40))
     rate2Star.layer.cornerRadius = 10.0
     rate2Star.layer.position = CGPoint(x: self.view.bounds.width/2 - 50, y:self.view.bounds.height/4 + 200)
     rate2Star.addTarget(self, action: "onClickRate2Star:", forControlEvents: .TouchUpInside)
     self.view.addSubview(rate2Star)
 
     // Rate 3 Star
-    let rate3Star = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    rate3Star.setTitleColor(UIColor.greenColor(), forState: .Normal)
+    //let rate3Star = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+    rate3Star.setTitleColor(secondaryText, forState: .Normal)
     rate3Star.layer.masksToBounds = true
     rate3Star.setTitle("★", forState: .Normal)
+    rate3Star.titleLabel!.font = UIFont.systemFontOfSize(CGFloat(40))
     rate3Star.layer.cornerRadius = 10.0
     rate3Star.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height/4 + 200)
     rate3Star.addTarget(self, action: "onClickRate3Star:", forControlEvents: .TouchUpInside)
     self.view.addSubview(rate3Star)
 
     // Rate 4 Star
-    let rate4Star = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    rate4Star.setTitleColor(UIColor.blackColor(), forState: .Normal)
+    //let rate4Star = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+    rate4Star.setTitleColor(secondaryText, forState: .Normal)
     rate4Star.layer.masksToBounds = true
     rate4Star.setTitle("★", forState: .Normal)
+    rate4Star.titleLabel!.font = UIFont.systemFontOfSize(CGFloat(40))
     rate4Star.layer.cornerRadius = 10.0
     rate4Star.layer.position = CGPoint(x: self.view.bounds.width/2 + 50, y:self.view.bounds.height/4 + 200)
     rate4Star.addTarget(self, action: "onClickRate4Star:", forControlEvents: .TouchUpInside)
     self.view.addSubview(rate4Star)
 
     // Rate 5 Star
-    let rate5Star = UIButton(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-    rate5Star.setTitleColor(UIColor.grayColor(), forState: .Normal)
+    //let rate5Star = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+    rate5Star.setTitleColor(secondaryText, forState: .Normal)
     rate5Star.layer.masksToBounds = true
     rate5Star.setTitle("★", forState: .Normal)
+    rate5Star.titleLabel!.font = UIFont.systemFontOfSize(CGFloat(40))
     rate5Star.layer.cornerRadius = 10.0
     rate5Star.layer.position = CGPoint(x: self.view.bounds.width/2 + 100, y:self.view.bounds.height/4 + 200)
     rate5Star.addTarget(self, action: "onClickRate5Star:", forControlEvents: .TouchUpInside)
@@ -139,6 +161,7 @@ class RateViewController: UIViewController {
   // ボタンイベントのセット.
   func onClickRate1Star(sender: UIButton){
     println("onClickRate1Star")
+    rate1Star.setTitleColor(accentColor, forState: .Normal)
     //AppDelegateのインスタンスを取得
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     var userRes:JSON = self.getUser(JSON(self.getRequestStatus(appDelegate._requestStatusID!)["teacher"]).toString(pretty: true))
@@ -147,6 +170,8 @@ class RateViewController: UIViewController {
   
   func onClickRate2Star(sender: UIButton){
     println("onClickRate2Star")
+    rate1Star.setTitleColor(accentColor, forState: .Normal)
+    rate2Star.setTitleColor(accentColor, forState: .Normal)
     //AppDelegateのインスタンスを取得
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     var userRes:JSON = self.getUser(JSON(self.getRequestStatus(appDelegate._requestStatusID!)["teacher"]).toString(pretty: true))
@@ -155,6 +180,9 @@ class RateViewController: UIViewController {
   
   func onClickRate3Star(sender: UIButton){
     println("onClickRate3Star")
+    rate1Star.setTitleColor(accentColor, forState: .Normal)
+    rate2Star.setTitleColor(accentColor, forState: .Normal)
+    rate3Star.setTitleColor(accentColor, forState: .Normal)
     //AppDelegateのインスタンスを取得
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     var userRes:JSON = self.getUser(JSON(self.getRequestStatus(appDelegate._requestStatusID!)["teacher"]).toString(pretty: true))
@@ -163,6 +191,10 @@ class RateViewController: UIViewController {
   
   func onClickRate4Star(sender: UIButton){
     println("onClickRate4Star")
+    rate1Star.setTitleColor(accentColor, forState: .Normal)
+    rate2Star.setTitleColor(accentColor, forState: .Normal)
+    rate3Star.setTitleColor(accentColor, forState: .Normal)
+    rate4Star.setTitleColor(accentColor, forState: .Normal)
     //AppDelegateのインスタンスを取得
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     var userRes:JSON = self.getUser(JSON(self.getRequestStatus(appDelegate._requestStatusID!)["teacher"]).toString(pretty: true))
@@ -171,6 +203,11 @@ class RateViewController: UIViewController {
   
   func onClickRate5Star(sender: UIButton){
     println("onClickRate5Star")
+    rate1Star.setTitleColor(accentColor, forState: .Normal)
+    rate2Star.setTitleColor(accentColor, forState: .Normal)
+    rate3Star.setTitleColor(accentColor, forState: .Normal)
+    rate4Star.setTitleColor(accentColor, forState: .Normal)
+    rate5Star.setTitleColor(accentColor, forState: .Normal)
     //AppDelegateのインスタンスを取得
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     var userRes:JSON = self.getUser(JSON(self.getRequestStatus(appDelegate._requestStatusID!)["teacher"]).toString(pretty: true))
