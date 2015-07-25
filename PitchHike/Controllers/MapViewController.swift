@@ -10,15 +10,6 @@ import UIKit
 
 class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLLocationManagerDelegate, GMSMapViewDelegate {
   
-  //  @IBAction func TeacherSearch(sender: AnyObject) {
-  //
-  //    locationManager.delegate = self
-  //    locationManager.requestWhenInUseAuthorization()
-  //
-  //    println("位置情報取得後の処理記述");
-  //
-  //    }
-  
   @IBOutlet weak var addressLabel: UILabel!
   @IBOutlet weak var mapView: GMSMapView!
   @IBOutlet weak var mapCenterPinImage: UIImageView!
@@ -187,13 +178,20 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
         let usrId = self.getUser(usrTmp!)
         println(usrId)
         
+          
+          
         //マッチした先生の情報表示
         self.addressLabel.unlock()
+        
         let lines = usrId["name"].toString(pretty: true)
         self.addressLabel.text = "\(lines)"
-          
+        
         let labelHeight = self.addressLabel.intrinsicContentSize().height
         self.mapView.padding = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: labelHeight, right: 0)
+          
+          
+        self.createTeacherButton(lines)
+          
           UIView.animateWithDuration(0.25) {
             self.pinImageVerticalConstraint.constant = ((labelHeight - self.topLayoutGuide.length) * 0.5)
             self.view.layoutIfNeeded()
@@ -259,6 +257,23 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     println(userReq)
     println(user)
     return user
+  }
+  
+  func createTeacherButton(tName:String){
+    // 先生プロフィール表示ボタンの生成.
+    let myButton = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+    myButton.backgroundColor = UIColor.blackColor()
+    myButton.layer.masksToBounds = true
+    myButton.setTitle(tName, forState: .Normal)
+    myButton.layer.cornerRadius = 50.0
+    myButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height/2)
+    myButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
+    self.view.addSubview(myButton)
+  }
+  
+  // 先生プロフィール表示ボタンイベントのセット.
+  func onClickMyButton(sender: UIButton){
+    // TODO
   }
   
   
