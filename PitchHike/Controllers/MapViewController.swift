@@ -131,7 +131,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
     if let location = locations.first as? CLLocation {
       // 6
-      mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 20, bearing: 0, viewingAngle: 0)
+      mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 10, bearing: 0, viewingAngle: 0)
       
       // 7
       locationManager.stopUpdatingLocation()
