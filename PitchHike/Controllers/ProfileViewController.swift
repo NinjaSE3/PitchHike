@@ -84,10 +84,10 @@ class ProfileViewController: UIViewController {
   func createProfileView(){
     //AppDelegateのインスタンスを取得
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-    //    var requestStatus = appDelegate._requestStatusID
-    var requestStatus = "559b673c6a97fd654ea0955f"
+        var requestStatus = appDelegate._requestStatusID
+//    var requestStatus = "559b673c6a97fd654ea0955f"
 
-    var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus)["teacher"]).toString(pretty: true))
+    var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(pretty: true))
     // TeacherPhoto
     // UIImageViewを作成する.
     teacherImageView = UIImageView(frame: CGRectMake(0,0,100,100))

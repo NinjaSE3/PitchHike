@@ -131,7 +131,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
     if let location = locations.first as? CLLocation {
       // 6
-      mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 20, bearing: 0, viewingAngle: 0)
+      mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
       
       // 7
       locationManager.stopUpdatingLocation()
@@ -214,7 +214,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
           // 画像をUIImageViewに設定する.
           teacherImageView.image = teacherImage
           // 画像の表示する座標を指定する.
-          teacherImageView.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y: self.view.bounds.height/2)
+          teacherImageView.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height - self.view.bounds.height/3)
           // UIImageViewをViewに追加する.
           self.view.addSubview(teacherImageView)
           
@@ -224,11 +224,12 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
           teacherPhoto.layer.masksToBounds = true
           teacherPhoto.setTitle(JSON(teacher["name"]).toString(pretty: true), forState: .Normal)
           teacherPhoto.layer.cornerRadius = 10.0
-          teacherPhoto.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/1.65)
+          teacherPhoto.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/4.5)
           self.view.addSubview(teacherPhoto)
           
           // Topic表示用
           self.createTopicButton()
+          
           
           // 到着時間表示用
           //var arvTime:JSON = self.getArrivedTime(JSON(requestStatus))
@@ -355,9 +356,9 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     let myButton = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 50))
     myButton.backgroundColor = UIColor.blackColor()
     myButton.layer.masksToBounds = true
-    myButton.setTitle("トピック表示", forState: .Normal)
+    myButton.setTitle("到着！", forState: .Normal)
     myButton.layer.cornerRadius = 5.0
-    myButton.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/1.50)
+    myButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/7)
     myButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
     self.view.addSubview(myButton)
     
@@ -374,7 +375,20 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   
   // トピック表示ボタンイベントのセット.
   func onClickMyButton(sender: UIButton){
-    // TODO
+    
+    //プレゼン用の偽装コード　使い終わったら必ず消すこと！！
+    var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var teacheruser:JSON = self.getRequestStatus(appDelegate._requestStatusID!)
+    var teacherJSON:JSON = self.getUser(JSON(teacheruser["teacher"]).toString(pretty: true))
+    self.responseTeacher(JSON(teacherJSON["userid"]).toString(pretty: true) ,requestStatusID: appDelegate._requestStatusID!)
+    //プレゼン用の偽装コード　使い終わったら必ず消すこと！！
+
+    // 遷移するViewを定義する.
+    let startViewController: UIViewController = StartViewController()
+    // アニメーションを設定する.
+    startViewController.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
+    // Viewの移動する.
+    self.presentViewController(startViewController, animated: true, completion: nil)
   }
   
   func getImage(image:String)->NSData{
@@ -383,6 +397,17 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     var getImageRes :NSData = NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &err)!;
     return getImageRes
   }
+  
+  //プレゼン用の偽装コード　使い終わったら必ず消すこと！！
+  func responseTeacher(userid:String,requestStatusID:String) -> JSON{
+    var responseTeacherURL = "http://52.8.212.125/responseTeacher?userid=" + userid + "&_id=" + requestStatusID
+    let responseTeacherRes = JSON(url: responseTeacherURL)
+    println(responseTeacherURL)
+    println(responseTeacherRes)
+    return responseTeacherRes
+  }
+  //プレゼン用の偽装コード　使い終わったら必ず消すこと！！
+
   
   func getArrivedTime(_id:String) -> JSON{
     var getArrivedTimeURL = "http://52.8.212.125/updateArrive?_id="+_id

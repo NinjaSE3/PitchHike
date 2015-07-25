@@ -36,9 +36,6 @@ class RateViewController: UIViewController {
     
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
-    appDelegate._requestStatusID = "559b673c6a97fd654ea0955f"
-
-    
     self.createRateStar()
     self.createProfileView()
   }

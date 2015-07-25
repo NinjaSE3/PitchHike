@@ -131,8 +131,8 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   
   func finishPitch(){
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-//    var finishPitching:JSON = self.finishPitching(appDelegate._requestStatusID!)
-    var finishPitching:JSON = self.finishPitching("559b673c6a97fd654ea0955f")
+    var finishPitching:JSON = self.finishPitching(appDelegate._requestStatusID!)
+//    var finishPitching:JSON = self.finishPitching("559b673c6a97fd654ea0955f")
     
     if(finishPitching["status"].toString(pretty: true) == "finish"){
       // 遷移するViewを定義する.
@@ -148,13 +148,13 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   func createMatchingView(){
     //AppDelegateのインスタンスを取得
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-//    var requestStatus = appDelegate._requestStatusID
-    var requestStatus = "559b673c6a97fd654ea0955f"
+    var requestStatus = appDelegate._requestStatusID
+//    var requestStatus = "559b673c6a97fd654ea0955f"
     println(requestStatus)
     
-    var student:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus)["student"]).toString(pretty: true))
+    var student:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["student"]).toString(pretty: true))
     
-    var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus)["teacher"]).toString(pretty: true))
+    var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(pretty: true))
     
     
     // StudentPhoto
