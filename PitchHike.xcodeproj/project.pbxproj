@@ -18,6 +18,8 @@
 		2D2DA8E91B62B4C8006D0FC1 /* PitchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA8E81B62B4C8006D0FC1 /* PitchViewController.swift */; };
 		2D2DA8ED1B62F64E006D0FC1 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA8EC1B62F64E006D0FC1 /* StartViewController.swift */; };
 		2D2DA8EF1B62FE41006D0FC1 /* RateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA8EE1B62FE41006D0FC1 /* RateViewController.swift */; };
+		2D2DA8F11B631F70006D0FC1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA8F01B631F70006D0FC1 /* ProfileViewController.swift */; };
+		2D2DA8F31B631F88006D0FC1 /* TopicsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2DA8F21B631F88006D0FC1 /* TopicsViewController.swift */; };
 		B48F646E19B22EB200710BEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48F646D19B22EB200710BEB /* AppDelegate.swift */; };
 		B48F647319B22EB200710BEB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B48F647119B22EB200710BEB /* Main.storyboard */; };
 		B48F647519B22EB200710BEB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B48F647419B22EB200710BEB /* Images.xcassets */; };
@@ -66,6 +68,8 @@
 		2D2DA8E81B62B4C8006D0FC1 /* PitchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PitchViewController.swift; sourceTree = "<group>"; };
 		2D2DA8EC1B62F64E006D0FC1 /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		2D2DA8EE1B62FE41006D0FC1 /* RateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateViewController.swift; sourceTree = "<group>"; };
+		2D2DA8F01B631F70006D0FC1 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		2D2DA8F21B631F88006D0FC1 /* TopicsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopicsViewController.swift; sourceTree = "<group>"; };
 		B48F646819B22EB200710BEB /* PitchHike.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PitchHike.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B48F646C19B22EB200710BEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B48F646D19B22EB200710BEB /* AppDelegate.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -202,6 +206,8 @@
 				2D2DA8E81B62B4C8006D0FC1 /* PitchViewController.swift */,
 				2D2DA8EC1B62F64E006D0FC1 /* StartViewController.swift */,
 				2D2DA8EE1B62FE41006D0FC1 /* RateViewController.swift */,
+				2D2DA8F01B631F70006D0FC1 /* ProfileViewController.swift */,
+				2D2DA8F21B631F88006D0FC1 /* TopicsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -356,12 +362,14 @@
 				00B1211C1B621263008F3AC4 /* ZFRippleButton.swift in Sources */,
 				2D2DA8ED1B62F64E006D0FC1 /* StartViewController.swift in Sources */,
 				B48F649319B22F9400710BEB /* GooglePlace.swift in Sources */,
+				2D2DA8F11B631F70006D0FC1 /* ProfileViewController.swift in Sources */,
 				CF85278419FAAAA0002C596E /* PlaceMarker.swift in Sources */,
 				B48F648E19B22F8700710BEB /* MapViewController.swift in Sources */,
 				00B1211A1B620313008F3AC4 /* MatchingViewController.swift in Sources */,
 				006F41C31B629A44004E63F2 /* SearchViewController.swift in Sources */,
 				B48F649A19B22F9B00710BEB /* UIViewExtension.swift in Sources */,
 				B48F649C19B22FA500710BEB /* TypesTableViewController.swift in Sources */,
+				2D2DA8F31B631F88006D0FC1 /* TopicsViewController.swift in Sources */,
 				00B121161B620143008F3AC4 /* WebAPI.swift in Sources */,
 				2D2DA8EF1B62FE41006D0FC1 /* RateViewController.swift in Sources */,
 				B48F649819B22F9B00710BEB /* MarkerInfoView.swift in Sources */,

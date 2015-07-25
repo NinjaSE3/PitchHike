@@ -237,8 +237,8 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     return cell
   }
   
-  func getRequestStatus(requestStatus:String) -> JSON{
-    var getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatus
+  func getRequestStatus(requestStatusID:String) -> JSON{
+    var getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatusID
     let requestStatus = JSON(url: getRequestStatusURL)
     println(getRequestStatusURL)
     println(requestStatus)
