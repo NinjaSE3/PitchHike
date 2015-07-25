@@ -138,7 +138,7 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
       // 遷移するViewを定義する.
       let rateViewController: UIViewController = RateViewController()
       // アニメーションを設定する.
-      rateViewController.modalTransitionStyle = UIModalTransitionStyle.CoverVertical
+      rateViewController.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
       // Viewの移動する.
       self.presentViewController(rateViewController, animated: true, completion: nil)
     }
