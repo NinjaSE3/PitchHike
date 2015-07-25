@@ -47,6 +47,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   func fetchNearbyPlaces(coordinate: CLLocationCoordinate2D) {
     // 1
     mapView.clear()
+    
     // 2
     dataProvider.fetchPlacesNearCoordinate(coordinate, radius:mapRadius, types: searchedTypes) { places in
       for place: GooglePlace in places {
@@ -220,6 +221,37 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
           // Topic表示用
           self.createTopicButton()
           
+          // 到着時間表示用
+          //var arvTime:JSON = self.getArrivedTime(JSON(requestStatus))
+          
+          // 到着時間表示
+//          let arvTimeButton = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+//          arvTimeButton.backgroundColor = UIColor.redColor()
+//          arvTimeButton.layer.masksToBounds = true
+//          arvTimeButton.setTitle(JSON(arvTime["arrive"]).toString(pretty: true), forState: .Normal)
+//          arvTimeButton.layer.cornerRadius = 10.0
+//          arvTimeButton.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/1.4)
+//          self.view.addSubview(teacherPhoto)
+          
+          
+          //TODO 先生の位置情報取得して、画像表示
+//          println(teacher)
+//          println(teacher["location"][0])
+//          println(teacher["location"][1])
+//          
+//          let place: GooglePlace
+//          let coordinate: CLLocationCoordinate2D
+//          
+//          let lat = (JSON(teacher["location"][0]).toString(pretty: true) as! NSString).doubleValue as! CLLocationDegrees
+//          let lng = (JSON(teacher["location"][1]).toString(pretty: true) as! NSString).doubleValue as! CLLocationDegrees
+//          
+//          coordinate = CLLocationCoordinate2DMake(lat, lng)
+//          
+////          place.coordinate = coordinate
+//          let marker = GMSMarker(position: coordinate)
+//          marker.title = "test"
+//          marker.map = self.mapView
+          
 //          UIView.animateWithDuration(0.25) {
 //            self.pinImageVerticalConstraint.constant = ((labelHeight - self.topLayoutGuide.length) * 0.5)
 //            self.view.layoutIfNeeded()
@@ -323,6 +355,13 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     return getImageRes
   }
   
+  func getArrivedTime(_id:String) -> JSON{
+    var getArrivedTimeURL = "http://52.8.212.125/updateArrive?_id="+_id
+    let requestStatusRes = JSON(url: getArrivedTimeURL)
+    println(getArrivedTimeURL)
+    println(requestStatusRes)
+    return requestStatusRes
+  }
   
 }
 

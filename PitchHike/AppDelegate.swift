@@ -23,13 +23,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Override point for customization after application launch.
     GMSServices.provideAPIKey(googleMapsApiKey)
     
-    // ViewControllerを生成する.
-    let firstViewController: PitchViewController = PitchViewController()
-    // UIWindowを生成する.
-    self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-    // rootViewControllerにNatigationControllerを設定する.
-    self.window?.rootViewController = firstViewController
-    self.window?.makeKeyAndVisible()
+//    // ViewControllerを生成する.
+//    let firstViewController: PitchViewController = PitchViewController()
+//    // UIWindowを生成する.
+//    self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+//    // rootViewControllerにNatigationControllerを設定する.
+//    self.window?.rootViewController = firstViewController
+//    self.window?.makeKeyAndVisible()
     
     return true
   }
