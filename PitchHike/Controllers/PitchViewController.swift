@@ -189,6 +189,10 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     teacherImageView.image = teacherImage
     // 画像の表示する座標を指定する.
     teacherImageView.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3.2, y: self.view.bounds.height/4.2)
+    // ジェスチャーを追加
+    let gesture = UITapGestureRecognizer(target:self, action:"onClickTeacherImageView:")
+    teacherImageView.userInteractionEnabled = true
+    teacherImageView.addGestureRecognizer(gesture)
     // UIImageViewをViewに追加する.
     self.view.addSubview(teacherImageView)
     
@@ -284,6 +288,13 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
       blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
       alpha: CGFloat(1.0)
     )
+  }
+  
+  // 先生の写真クリック時にプロフィール画面を表示する（なぜか遷移できない）
+  func onClickTeacherImageView(recognizer: UIGestureRecognizer) {
+    println("onClickTeacherImageView")
+    let profileViewController: UIViewController = ProfileViewController()
+    self.navigationController?.pushViewController(profileViewController, animated: true)
   }
   
   override func didReceiveMemoryWarning() {

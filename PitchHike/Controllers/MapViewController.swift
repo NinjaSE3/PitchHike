@@ -225,6 +225,10 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
           teacherImageView.image = teacherImage
           // 画像の表示する座標を指定する.
           teacherImageView.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height - self.view.bounds.height/3.6)
+          // ジェスチャーを追加
+          let gesture = UITapGestureRecognizer(target:self, action:"onClickTeacherImageView:")
+          teacherImageView.userInteractionEnabled = true
+          teacherImageView.addGestureRecognizer(gesture)
           // UIImageViewをViewに追加する.
           self.view.addSubview(teacherImageView)
           
@@ -415,6 +419,12 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     startViewController.modalTransitionStyle = UIModalTransitionStyle.FlipHorizontal
     // Viewの移動する.
     self.presentViewController(startViewController, animated: true, completion: nil)
+  }
+  
+  // 先生の写真クリック時にプロフィール画面を表示する
+  func onClickTeacherImageView(recognizer: UIGestureRecognizer) {
+    let profileViewController: UIViewController = ProfileViewController()
+    navigationController?.pushViewController(profileViewController, animated: true)
   }
   
   func getImage(image:String)->NSData{

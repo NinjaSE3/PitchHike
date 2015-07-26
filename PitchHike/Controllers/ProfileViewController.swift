@@ -27,7 +27,6 @@ class ProfileViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.view.backgroundColor = UIColor.whiteColor()
     
     secondaryText = UIColorFromRGB(0x727272);
     primaryText = UIColorFromRGB(0x212121);
@@ -38,8 +37,9 @@ class ProfileViewController: UIViewController {
     textIcons = UIColorFromRGB(0xF8F8F8);
     dividerColor = UIColorFromRGB(0xB6B6B6);
     
+    self.view.backgroundColor = textIcons
     self.createTimerView()
-    self.createBackView()
+    //self.createBackView()
     self.createProfileView()
   }
   
@@ -50,7 +50,7 @@ class ProfileViewController: UIViewController {
     
     //ラベルを作る.
     var limtime = 15
-    timeLabel = UILabel(frame: CGRectMake(0,0,self.view.bounds.width,40))
+    timeLabel = UILabel(frame: CGRectMake(0,0,self.view.bounds.width,self.navigationController!.navigationBar.bounds.size.height))
     timeLabel.backgroundColor = primaryColor
     timeLabel.textColor = textIcons
     timeLabel.layer.masksToBounds = true
@@ -59,22 +59,24 @@ class ProfileViewController: UIViewController {
     }
     timeLabel.textColor = UIColor.whiteColor()
     timeLabel.textAlignment = NSTextAlignment.Center
-    timeLabel.layer.position = CGPoint(x: self.view.bounds.width/2,y: 50)
+    timeLabel.layer.position = CGPoint(x: self.view.bounds.width/2,y: self.navigationController!.navigationBar.bounds.size.height*2)
     self.view.backgroundColor = UIColor.whiteColor()
     self.view.addSubview(timeLabel)
     
   }
+  /*
   func createBackView(){
     // ボタンの生成.
-    let myButton = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width,height: 40))
+    let myButton = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width,height: self.navigationController!.navigationBar.bounds.size.height))
     myButton.backgroundColor = lightPrimaryColor
     myButton.setTitleColor(primaryText, forState: .Normal)
     myButton.layer.masksToBounds = true
-    myButton.setTitle("< Back                  Profile                              ", forState: .Normal)
-    myButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:90)
+    myButton.setTitle("Profile", forState: .Normal)
+    myButton.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.navigationController!.navigationBar.bounds.size.height*3)
     myButton.addTarget(self, action: "onClickMyButton:", forControlEvents: .TouchUpInside)
     self.view.addSubview(myButton)
   }
+  */
   
   // ボタンイベントのセット.
   func onClickMyButton(sender: UIButton){
