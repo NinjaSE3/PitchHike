@@ -217,6 +217,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
           // TeacherPhoto
           // UIImageViewを作成する.
           let teacherImageView = UIImageView(frame: CGRectMake(0,0,100,100))
+          teacherImageView.tag = 9999;
           // 表示する画像を設定する.
           let teacherImage = UIImage(data: self.getImage(JSON(teacher["image"]).toString(pretty: true)))
           // 画像をUIImageViewに設定する.
@@ -292,6 +293,9 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
         println("View:\(myView.description)")
         
         if myView.isKindOfClass(UIButton) {
+          myView.removeFromSuperview()
+        }
+        if myView.tag == 9999 {
           myView.removeFromSuperview()
         }
 //        if myView.isEqual() {
