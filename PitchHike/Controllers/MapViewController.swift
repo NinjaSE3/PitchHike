@@ -212,6 +212,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
           let teacherBackgroundView = UIButton(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height/4.5))
           teacherBackgroundView.backgroundColor = self.textIcons
           teacherBackgroundView.layer.position = CGPoint(x: self.view.bounds.width/2, y: self.view.bounds.height - self.view.bounds.height/5.8)
+          teacherBackgroundView.tag = 9999
           self.view.addSubview(teacherBackgroundView)
           
           // TeacherPhoto
@@ -229,6 +230,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
           
           // Teacher Name
           let teacherPhoto = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 20))
+          teacherPhoto.tag = 9999
           //teacherPhoto.backgroundColor = UIColor.redColor()
           teacherPhoto.setTitleColor(self.primaryText, forState: .Normal)
           teacherPhoto.layer.masksToBounds = true
@@ -292,10 +294,10 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
       for (myView: UIView) in views as! [UIView] {
         println("View:\(myView.description)")
         
-        if myView.isKindOfClass(UIButton) {
-          myView.removeFromSuperview()
-        }
         if myView.tag == 9999 {
+          continue
+        }
+        if myView.isKindOfClass(UIButton) {
           myView.removeFromSuperview()
         }
 //        if myView.isEqual() {
@@ -376,6 +378,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   func createTopicButton(){
     // トピック表示ボタンの生成.
     let myButton = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
+    myButton.tag = 9999
     myButton.backgroundColor = accentColor
     myButton.setTitleColor(textIcons, forState: .Normal)
     myButton.layer.masksToBounds = true
