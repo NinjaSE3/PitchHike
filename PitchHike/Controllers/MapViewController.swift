@@ -110,7 +110,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   }
   
   // 1
-  func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+  func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
     // 2
     if status == .AuthorizedWhenInUse {
       
@@ -129,8 +129,8 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   }
   
   // 5 位置情報取得成功後のdelgate
-  func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-    if let location = locations.first as? CLLocation {
+  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    if let location = locations.first as? CLLocation! {
       // 6
       mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
       
@@ -150,7 +150,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
         self.addressLabel.backgroundColor = self.primaryColor
         self.addressLabel.textColor = self.lightPrimaryColor
         let lines = address.lines as! [String]
-        self.addressLabel.text = join("\n", lines)
+        self.addressLabel.text = lines.joinWithSeparator("\n")
         
         let labelHeight = self.addressLabel.intrinsicContentSize().height
         self.mapView.padding = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: labelHeight, right: 0)
@@ -205,9 +205,9 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
         //
         var requestStatus = appDelegate._requestStatusID
           //    var requestStatus = "559b673c6a97fd654ea0955f"
-          println(requestStatus)
+          print(requestStatus)
           
-        var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(pretty: true))
+        var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(true))
           
           let teacherBackgroundView = UIButton(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height/4.5))
           teacherBackgroundView.backgroundColor = self.textIcons
@@ -220,7 +220,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
           let teacherImageView = UIImageView(frame: CGRectMake(0,0,100,100))
           teacherImageView.tag = 9999;
           // 表示する画像を設定する.
-          let teacherImage = UIImage(data: self.getImage(JSON(teacher["image"]).toString(pretty: true)))
+          let teacherImage = UIImage(data: self.getImage(JSON(teacher["image"]).toString(true)))
           // 画像をUIImageViewに設定する.
           teacherImageView.image = teacherImage
           // 画像の表示する座標を指定する.
@@ -238,7 +238,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
           //teacherPhoto.backgroundColor = UIColor.redColor()
           teacherPhoto.setTitleColor(self.primaryText, forState: .Normal)
           teacherPhoto.layer.masksToBounds = true
-          teacherPhoto.setTitle(JSON(teacher["name"]).toString(pretty: true), forState: .Normal)
+          teacherPhoto.setTitle(JSON(teacher["name"]).toString(true), forState: .Normal)
           teacherPhoto.layer.cornerRadius = 10.0
           teacherPhoto.layer.position = CGPoint(x: self.view.bounds.width/2, y:self.view.bounds.height - self.view.bounds.height/5.6)
           self.view.addSubview(teacherPhoto)
@@ -295,8 +295,8 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
       mapView.selectedMarker = nil
       
       let views = self.view.subviews
-      for (myView: UIView) in views as! [UIView] {
-        println("View:\(myView.description)")
+      for myView in views {
+        print("View:\(myView.description)")
         
         if myView.tag == 9999 {
           continue
@@ -339,7 +339,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     //利用者の顔
     let appuserimgView = UIImageView(frame: CGRectMake(0,0,75,75))
     var appuser:JSON = self.getUser("000001")
-    let appuserimg = UIImage(data: self.getImage(JSON(appuser["image"]).toString(pretty: true)))
+    let appuserimg = UIImage(data: self.getImage(JSON(appuser["image"]).toString(true)))
     appuserimgView.image = appuserimg
     appuserimgView.layer.position = CGPoint(x: 50, y: 110)
     self.view.addSubview(appuserimgView)
@@ -350,7 +350,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == "Types Segue" {
       let navigationController = segue.destinationViewController as! UINavigationController
-      let controller = segue.destinationViewController.topViewController as! TypesTableViewController
+      let controller = (segue.destinationViewController as! UINavigationController).topViewController as!TypesTableViewController
       controller.selectedTypes = searchedTypes
       controller.delegate = self
     }
@@ -358,24 +358,24 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   
   // MARK: - Types Controller Delegate
   func typesController(controller: TypesTableViewController, didSelectTypes types: [String]) {
-    searchedTypes = sorted(controller.selectedTypes)
+    searchedTypes = controller.selectedTypes.sort()
     dismissViewControllerAnimated(true, completion: nil)
     fetchNearbyPlaces(mapView.camera.target)
   }
   
   func getRequestStatus(_id:String) -> JSON{
-    var getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id="+_id
+    let getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id="+_id
     let requestStatusRes = JSON(url: getRequestStatusURL)
-    println(getRequestStatusURL)
-    println(requestStatusRes)
+    print(getRequestStatusURL)
+    print(requestStatusRes)
     return requestStatusRes
   }
   
   func getUser(requestUserId:String) -> JSON{
-    var userReq = "http://52.8.212.125/getUser?userid=" + requestUserId
+    let userReq = "http://52.8.212.125/getUser?userid=" + requestUserId
     let user = JSON(url: userReq)
-    println(userReq)
-    println(user)
+    print(userReq)
+    print(user)
     return user
   }
   
@@ -409,8 +409,8 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
     //プレゼン用の偽装コード　使い終わったら必ず消すこと！！
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     var teacheruser:JSON = self.getRequestStatus(appDelegate._requestStatusID!)
-    var teacherJSON:JSON = self.getUser(JSON(teacheruser["teacher"]).toString(pretty: true))
-    self.responseTeacher(JSON(teacherJSON["userid"]).toString(pretty: true) ,requestStatusID: appDelegate._requestStatusID!)
+    var teacherJSON:JSON = self.getUser(JSON(teacheruser["teacher"]).toString(true))
+    self.responseTeacher(JSON(teacherJSON["userid"]).toString(true) ,requestStatusID: appDelegate._requestStatusID!)
     //プレゼン用の偽装コード　使い終わったら必ず消すこと！！
 
     // 遷移するViewを定義する.
@@ -430,27 +430,27 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   func getImage(image:String)->NSData{
     let url = NSURL(string: "http://52.8.212.125/getImage?url=" + image);
     var err: NSError?;
-    var getImageRes :NSData = NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &err)!;
+    let getImageRes :NSData = try! NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe);
     return getImageRes
   }
 
   
   //プレゼン用の偽装コード　使い終わったら必ず消すこと！！
   func responseTeacher(userid:String,requestStatusID:String) -> JSON{
-    var responseTeacherURL = "http://52.8.212.125/responseTeacher?userid=" + userid + "&_id=" + requestStatusID
+    let responseTeacherURL = "http://52.8.212.125/responseTeacher?userid=" + userid + "&_id=" + requestStatusID
     let responseTeacherRes = JSON(url: responseTeacherURL)
-    println(responseTeacherURL)
-    println(responseTeacherRes)
+    print(responseTeacherURL)
+    print(responseTeacherRes)
     return responseTeacherRes
   }
   //プレゼン用の偽装コード　使い終わったら必ず消すこと！！
 
   
   func getArrivedTime(_id:String) -> JSON{
-    var getArrivedTimeURL = "http://52.8.212.125/updateArrive?_id="+_id
+    let getArrivedTimeURL = "http://52.8.212.125/updateArrive?_id="+_id
     let requestStatusRes = JSON(url: getArrivedTimeURL)
-    println(getArrivedTimeURL)
-    println(requestStatusRes)
+    print(getArrivedTimeURL)
+    print(requestStatusRes)
     return requestStatusRes
   }
   

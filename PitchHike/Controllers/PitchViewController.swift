@@ -57,8 +57,8 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     // Topics取得
     var topics:JSON = self.getTopics()
     for(var i=0;i<20;i++){
-      topicItems.append(topics[i]["topic"].toString(pretty: true))
-      println(topics[i]["topic"].toString(pretty: true))
+      topicItems.append(topics[i]["topic"].toString(true))
+      print(topics[i]["topic"].toString(true))
     }
     // Status Barの高さを取得する.
     let barHeight: CGFloat = UIApplication.sharedApplication().statusBarFrame.size.height
@@ -134,7 +134,7 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     var finishPitching:JSON = self.finishPitching(appDelegate._requestStatusID!)
 //    var finishPitching:JSON = self.finishPitching("559b673c6a97fd654ea0955f")
     
-    if(finishPitching["status"].toString(pretty: true) == "finish"){
+    if(finishPitching["status"].toString(true) == "finish"){
       // 遷移するViewを定義する.
       let rateViewController: UIViewController = RateViewController()
       // アニメーションを設定する.
@@ -150,18 +150,18 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     var requestStatus = appDelegate._requestStatusID
 //    var requestStatus = "559b673c6a97fd654ea0955f"
-    println(requestStatus)
+    print(requestStatus)
     
-    var student:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["student"]).toString(pretty: true))
+    var student:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["student"]).toString(true))
     
-    var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(pretty: true))
+    var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(true))
     
     
     // StudentPhoto
     // UIImageViewを作成する.
     studentImageView = UIImageView(frame: CGRectMake(0,0,100,100))
     // 表示する画像を設定する.
-    let studentImage = UIImage(data: self.getImage(JSON(student["image"]).toString(pretty: true)))
+    let studentImage = UIImage(data: self.getImage(JSON(student["image"]).toString(true)))
     // 画像をUIImageViewに設定する.
     studentImageView.image = studentImage
     // 画像の表示する座標を指定する.
@@ -175,7 +175,7 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     //studentName.backgroundColor = textIcons
     studentName.setTitleColor(primaryText, forState: .Normal)
     studentName.layer.masksToBounds = true
-    studentName.setTitle(JSON(student["name"]).toString(pretty: true), forState: .Normal)
+    studentName.setTitle(JSON(student["name"]).toString(true), forState: .Normal)
     studentName.layer.cornerRadius = 10.0
     studentName.layer.position = CGPoint(x: self.view.bounds.width/3.2, y:self.view.bounds.height/3)
     self.view.addSubview(studentName)
@@ -184,7 +184,7 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     // UIImageViewを作成する.
     teacherImageView = UIImageView(frame: CGRectMake(0,0,100,100))
     // 表示する画像を設定する.
-    let teacherImage = UIImage(data: self.getImage(JSON(teacher["image"]).toString(pretty: true)))
+    let teacherImage = UIImage(data: self.getImage(JSON(teacher["image"]).toString(true)))
     // 画像をUIImageViewに設定する.
     teacherImageView.image = teacherImage
     // 画像の表示する座標を指定する.
@@ -201,7 +201,7 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
     //teacherName.backgroundColor = textIcons
     teacherName.setTitleColor(primaryText, forState: .Normal)
     teacherName.layer.masksToBounds = true
-    teacherName.setTitle(JSON(teacher["name"]).toString(pretty: true), forState: .Normal)
+    teacherName.setTitle(JSON(teacher["name"]).toString(true), forState: .Normal)
     teacherName.layer.cornerRadius = 10.0
     teacherName.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3.2, y:self.view.bounds.height/3)
     self.view.addSubview(teacherName)
@@ -211,8 +211,8 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   Cellが選択された際に呼び出されるデリゲートメソッド.
   */
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    println("Num: \(indexPath.row)")
-    println("Value: \(topicItems[indexPath.row])")
+    print("Num: \(indexPath.row)")
+    print("Value: \(topicItems[indexPath.row])")
   }
   
   /*
@@ -230,7 +230,7 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     
     // 再利用するCellを取得する.
-    let cell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath: indexPath) as! UITableViewCell
+    let cell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath: indexPath) 
     
     // Cellに値を設定する.
     cell.textLabel!.text = "\(topicItems[indexPath.row])"
@@ -242,41 +242,41 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   }
   
   func getRequestStatus(requestStatusID:String) -> JSON{
-    var getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatusID
+    let getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatusID
     let requestStatus = JSON(url: getRequestStatusURL)
-    println(getRequestStatusURL)
-    println(requestStatus)
+    print(getRequestStatusURL)
+    print(requestStatus)
     return requestStatus
   }
   
   func getUser(requestUserId:String) -> JSON{
-    var getUserURL = "http://52.8.212.125/getUser?userid=" + requestUserId
+    let getUserURL = "http://52.8.212.125/getUser?userid=" + requestUserId
     let userRes = JSON(url: getUserURL)
-    println(getUserURL)
-    println(userRes)
+    print(getUserURL)
+    print(userRes)
     return userRes
   }
   
   func getTopics() -> JSON{
-    var getTopicsURL = "http://52.8.212.125/getTopics"
+    let getTopicsURL = "http://52.8.212.125/getTopics"
     let topicsRes = JSON(url: getTopicsURL)
-    println(getTopicsURL)
-    println(topicsRes)
+    print(getTopicsURL)
+    print(topicsRes)
     return topicsRes
   }
   
   func finishPitching(requestStatusID:String) -> JSON{
-    var finishPitchingURL = "http://52.8.212.125/finishPitching?_id=" + requestStatusID
+    let finishPitchingURL = "http://52.8.212.125/finishPitching?_id=" + requestStatusID
     let finishPitchingRes = JSON(url: finishPitchingURL)
-    println(finishPitchingURL)
-    println(finishPitchingRes)
+    print(finishPitchingURL)
+    print(finishPitchingRes)
     return finishPitchingRes
   }
   
   func getImage(image:String)->NSData{
     let url = NSURL(string: "http://52.8.212.125/getImage?url=" + image);
     var err: NSError?;
-    var getImageRes :NSData = NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &err)!;
+    let getImageRes :NSData = try! NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe);
     return getImageRes
   }
   
@@ -292,7 +292,7 @@ class PitchViewController: UIViewController ,UITableViewDelegate , UITableViewDa
   
   // 先生の写真クリック時にプロフィール画面を表示する（なぜか遷移できない）
   func onClickTeacherImageView(recognizer: UIGestureRecognizer) {
-    println("onClickTeacherImageView")
+    print("onClickTeacherImageView")
     let profileViewController: UIViewController = ProfileViewController()
     self.navigationController?.pushViewController(profileViewController, animated: true)
   }

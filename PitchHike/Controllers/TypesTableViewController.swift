@@ -19,7 +19,7 @@ class TypesTableViewController: UITableViewController {
   weak var delegate: TypesTableViewControllerDelegate!
   var sortedKeys: [String] {
     get {
-      return sorted(possibleTypesDictionary.keys)
+      return possibleTypesDictionary.keys.sort()
     }
   }
   
@@ -34,12 +34,12 @@ class TypesTableViewController: UITableViewController {
   }
   
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) as! UITableViewCell
+    let cell = tableView.dequeueReusableCellWithIdentifier("TypeCell", forIndexPath: indexPath) 
     let key = sortedKeys[indexPath.row]
     let type = possibleTypesDictionary[key]!
     cell.textLabel?.text = type
     cell.imageView?.image = UIImage(named: key)
-    cell.accessoryType = contains(selectedTypes!, key) ? .Checkmark : .None
+    cell.accessoryType = (selectedTypes!).contains(key) ? .Checkmark : .None
     return cell
   }
   
@@ -47,7 +47,7 @@ class TypesTableViewController: UITableViewController {
   override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
     tableView.deselectRowAtIndexPath(indexPath, animated: true)
     let key = sortedKeys[indexPath.row]
-    if contains(selectedTypes!, key) {
+    if (selectedTypes!).contains(key) {
       selectedTypes = selectedTypes.filter({$0 != key})
     } else {
       selectedTypes.append(key)

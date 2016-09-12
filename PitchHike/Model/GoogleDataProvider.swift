@@ -30,7 +30,7 @@ class GoogleDataProvider {
     var urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=\(apiKey)&location=\(coordinate.latitude),\(coordinate.longitude)&radius=\(radius)&rankby=prominence&sensor=true"
     
     
-    let typesString = types.count > 0 ? join("|", types) : "food"
+    let typesString = types.count > 0 ? types.joinWithSeparator("|") : "food"
     urlString += "&types=\(typesString)"
     urlString = urlString.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
     
@@ -41,7 +41,7 @@ class GoogleDataProvider {
     placesTask = session.dataTaskWithURL(NSURL(string: urlString)!) {data, response, error in
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       var placesArray = [GooglePlace]()
-      if let json = NSJSONSerialization.JSONObjectWithData(data, options:nil, error:nil) as? NSDictionary {
+      if let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options:[])) as? NSDictionary {
         if let results = json["results"] as? NSArray {
           for rawPlace:AnyObject in results {
             let place = GooglePlace(dictionary: rawPlace as! NSDictionary, acceptedTypes: types)
@@ -72,7 +72,7 @@ class GoogleDataProvider {
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       var encodedRoute: String?
       
-      if let json = NSJSONSerialization.JSONObjectWithData(data, options:nil, error:nil) as? [String:AnyObject] {
+      if let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options:[])) as? [String:AnyObject] {
         if let routes = json["routes"] as AnyObject? as? [AnyObject] {
           if let route = routes.first as? [String : AnyObject] {
             if let polyline = route["overview_polyline"] as AnyObject? as? [String : String] {
@@ -88,27 +88,27 @@ class GoogleDataProvider {
                 location.lat = String(stringInterpolationSegment: to.latitude)
                 location.lng = String(stringInterpolationSegment: to.longitude)
                 
-                println(location.lat)
-                println(location.lng)
+                print(location.lat)
+                print(location.lng)
                 
                 //req:lat,lng,language,userid res:requestStatus
                 let requestTeacherRes = self.requestTeacher(location.lat, lng: location.lng, lang: "English", userid: "000001")
-                println(requestTeacherRes["status"])
+                print(requestTeacherRes["status"])
                 
                 // 現在日時を取得
                 var date1 = NSDate()
                 while(true){
-                  let requestStatusRes = self.getRequestStatus(requestTeacherRes["_id"].toString(pretty: true))
-                  println(requestStatusRes["status"])
+                  let requestStatusRes = self.getRequestStatus(requestTeacherRes["_id"].toString(true))
+                  print(requestStatusRes["status"])
                   
                   sleep(1)
                   // 現在日時を取得
                   var date2 = NSDate()
                   var time  = Float(date2.timeIntervalSinceDate(date1))
-                  println(time)
+                  print(time)
                   
-                  var status:String = requestStatusRes["status"].toString(pretty: true)
-                  if( requestStatusRes["status"].toString(pretty: true) == "req" ){
+                  var status:String = requestStatusRes["status"].toString(true)
+                  if( requestStatusRes["status"].toString(true) == "req" ){
                     break
                   }
                   if(time > Float(5)){
@@ -118,14 +118,14 @@ class GoogleDataProvider {
                 }
                 if(appDelegate._error != "TimeOut"){
                   //appDelegateの変数を操作 マッチングした先生と生徒の_id
-                  appDelegate._requestStatusID = requestTeacherRes["_id"].toString(pretty: true)
-                  let requestStatusRes = self.getRequestStatus(requestTeacherRes["_id"].toString(pretty: true))
-                  println(requestStatusRes["status"])
-                  appDelegate._userId = requestStatusRes["teacher"].toString(pretty: true)
+                  appDelegate._requestStatusID = requestTeacherRes["_id"].toString(true)
+                  let requestStatusRes = self.getRequestStatus(requestTeacherRes["_id"].toString(true))
+                  print(requestStatusRes["status"])
+                  appDelegate._userId = requestStatusRes["teacher"].toString(true)
                   appDelegate._screen = "Matching"
                   
                 }else{
-                  print("Search失敗")
+                  print("Search失敗", terminator: "")
                 }
               }
             }
@@ -143,13 +143,13 @@ class GoogleDataProvider {
     let json = JSON(url: urlString)
     
     let legs = json["routes"][0]["legs"][0]
-    println(legs)
+    print(legs)
     
-    var totalDistanceInMeters = json["routes"][0]["legs"][0]["distance"]["text"]
-    var totalDurationInSeconds = json["routes"][0]["legs"][0]["duration"]["text"]
+    let totalDistanceInMeters = json["routes"][0]["legs"][0]["distance"]["text"]
+    let totalDurationInSeconds = json["routes"][0]["legs"][0]["duration"]["text"]
     
-    println(totalDistanceInMeters)
-    println(totalDurationInSeconds)
+    print(totalDistanceInMeters)
+    print(totalDurationInSeconds)
     
   }
 
@@ -164,7 +164,7 @@ class GoogleDataProvider {
       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
       session.downloadTaskWithURL(NSURL(string: urlString)!) {url, response, error in
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        let downloadedPhoto = UIImage(data: NSData(contentsOfURL: url)!)
+        let downloadedPhoto = UIImage(data: NSData(contentsOfURL: url!)!)
         self.photoCache[reference] = downloadedPhoto
         dispatch_async(dispatch_get_main_queue()) {
           completion(downloadedPhoto)
@@ -174,27 +174,27 @@ class GoogleDataProvider {
   }
   
   func requestTeacher(lat:String,lng:String,lang:String,userid:String) -> JSON{
-    var requestTeacherURL = "http://52.8.212.125/requestTeacher?lat=" + String(lat) + "&lng="+String(lng)+"&lang=" + String(lang) + "&userid=" + String(userid)
+    let requestTeacherURL = "http://52.8.212.125/requestTeacher?lat=" + String(lat) + "&lng="+String(lng)+"&lang=" + String(lang) + "&userid=" + String(userid)
     let requestTeacherRes = JSON(url: requestTeacherURL)
-    println(requestTeacherURL)
-    println(requestTeacherRes)
+    print(requestTeacherURL)
+    print(requestTeacherRes)
     return requestTeacherRes
   }
   
   func getRequestStatus(_id:String) -> JSON{
-    var getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id="+_id
+    let getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id="+_id
     let requestStatusRes = JSON(url: getRequestStatusURL)
-    println(getRequestStatusURL)
-    println(requestStatusRes)
+    print(getRequestStatusURL)
+    print(requestStatusRes)
     return requestStatusRes
   }
 
   
   func getUser(requestUserId:String) -> JSON{
-    var userReq = "http://52.8.212.125/getUser?userid=" + requestUserId
+    let userReq = "http://52.8.212.125/getUser?userid=" + requestUserId
     let user = JSON(url: userReq)
-    println(userReq)
-    println(user)
+    print(userReq)
+    print(user)
     return user
   }
 

@@ -47,8 +47,8 @@ class TopicsViewController: UIViewController,UITableViewDelegate , UITableViewDa
     // Topics取得
     var topics:JSON = self.getTopics()
     for(var i=0;i<20;i++){
-      topicItems.append(topics[i]["topic"].toString(pretty: true))
-      println(topics[i]["topic"].toString(pretty: true))
+      topicItems.append(topics[i]["topic"].toString(true))
+      print(topics[i]["topic"].toString(true))
     }
     // Status Barの高さを取得する.
     let barHeight: CGFloat = UIApplication.sharedApplication().statusBarFrame.size.height
@@ -79,8 +79,8 @@ class TopicsViewController: UIViewController,UITableViewDelegate , UITableViewDa
     timeLabel.backgroundColor = primaryColor
     timeLabel.textColor = textIcons
     timeLabel.layer.masksToBounds = true
-    if(JSON(requestStatus["arrive"]).toString(pretty: true) != ""){
-      timeLabel.text = "Time:"+JSON(requestStatus["arrive"]).toString(pretty: true)
+    if(JSON(requestStatus["arrive"]).toString(true) != ""){
+      timeLabel.text = "Time:"+JSON(requestStatus["arrive"]).toString(true)
     }
     timeLabel.textAlignment = NSTextAlignment.Center
     timeLabel.layer.position = CGPoint(x: self.view.bounds.width/2,y: 50)
@@ -108,10 +108,10 @@ class TopicsViewController: UIViewController,UITableViewDelegate , UITableViewDa
   
   
   func getRequestStatus(requestStatusID:String) -> JSON{
-    var getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatusID
+    let getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatusID
     let requestStatus = JSON(url: getRequestStatusURL)
-    println(getRequestStatusURL)
-    println(requestStatus)
+    print(getRequestStatusURL)
+    print(requestStatus)
     return requestStatus
   }
   
@@ -119,8 +119,8 @@ class TopicsViewController: UIViewController,UITableViewDelegate , UITableViewDa
   Cellが選択された際に呼び出されるデリゲートメソッド.
   */
   func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-    println("Num: \(indexPath.row)")
-    println("Value: \(topicItems[indexPath.row])")
+    print("Num: \(indexPath.row)")
+    print("Value: \(topicItems[indexPath.row])")
   }
   
   /*
@@ -138,7 +138,7 @@ class TopicsViewController: UIViewController,UITableViewDelegate , UITableViewDa
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     
     // 再利用するCellを取得する.
-    let cell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath: indexPath) as! UITableViewCell
+    let cell = tableView.dequeueReusableCellWithIdentifier("MyCell", forIndexPath: indexPath) 
     
     // Cellに値を設定する.
     cell.textLabel!.text = "\(topicItems[indexPath.row])"
@@ -148,10 +148,10 @@ class TopicsViewController: UIViewController,UITableViewDelegate , UITableViewDa
   
   
   func getTopics() -> JSON{
-    var getTopicsURL = "http://52.8.212.125/getTopics"
+    let getTopicsURL = "http://52.8.212.125/getTopics"
     let topicsRes = JSON(url: getTopicsURL)
-    println(getTopicsURL)
-    println(topicsRes)
+    print(getTopicsURL)
+    print(topicsRes)
     return topicsRes
   }
   

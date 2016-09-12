@@ -11,26 +11,26 @@ import Foundation
 class WebAPI {
     
     func requestTeacher(lat:String,lng:String,lang:String,userid:String) -> JSON{
-        var teacherReq = "http://52.8.212.125/requestTeacher?lat=" + String(lat) + "&lng="+String(lng)+"&lang=" + String(lang) + "&userid=" + String(userid)
+        let teacherReq = "http://52.8.212.125/requestTeacher?lat=" + String(lat) + "&lng="+String(lng)+"&lang=" + String(lang) + "&userid=" + String(userid)
         let requestStatus = JSON(url: teacherReq)
-        println(teacherReq)
-        println(requestStatus)
+        print(teacherReq)
+        print(requestStatus)
         return requestStatus
     }
 
     func getRequestStatus(requestStatus:String) -> JSON{
-        var statusReq = "http://52.8.212.125/getRequestStatus?_id=" + requestStatus
+        let statusReq = "http://52.8.212.125/getRequestStatus?_id=" + requestStatus
         let status = JSON(url: statusReq)
-        println(statusReq)
-        println(status)
+        print(statusReq)
+        print(status)
         return status
     }
     
     func getUser(requestUserId:String) -> JSON{
-        var userReq = "http://52.8.212.125/getUser?userid=" + requestUserId
+        let userReq = "http://52.8.212.125/getUser?userid=" + requestUserId
         let user = JSON(url: userReq)
-        println(userReq)
-        println(user)
+        print(userReq)
+        print(user)
         return user
     }
     

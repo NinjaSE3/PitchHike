@@ -54,8 +54,8 @@ class ProfileViewController: UIViewController {
     timeLabel.backgroundColor = primaryColor
     timeLabel.textColor = textIcons
     timeLabel.layer.masksToBounds = true
-    if(JSON(requestStatus["arrive"]).toString(pretty: true) != ""){
-      timeLabel.text = "Time:"+JSON(requestStatus["arrive"]).toString(pretty: true)
+    if(JSON(requestStatus["arrive"]).toString(true) != ""){
+      timeLabel.text = "Time:"+JSON(requestStatus["arrive"]).toString(true)
     }
     timeLabel.textColor = UIColor.whiteColor()
     timeLabel.textAlignment = NSTextAlignment.Center
@@ -89,12 +89,12 @@ class ProfileViewController: UIViewController {
         var requestStatus = appDelegate._requestStatusID
 //    var requestStatus = "559b673c6a97fd654ea0955f"
 
-    var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(pretty: true))
+    var teacher:JSON = self.getUser(JSON(self.getRequestStatus(requestStatus!)["teacher"]).toString(true))
     // TeacherPhoto
     // UIImageViewを作成する.
     teacherImageView = UIImageView(frame: CGRectMake(0,0,100,100))
     // 表示する画像を設定する.
-    let teacherImage = UIImage(data: self.getImage(JSON(teacher["image"]).toString(pretty: true)))
+    let teacherImage = UIImage(data: self.getImage(JSON(teacher["image"]).toString(true)))
     // 画像をUIImageViewに設定する.
     teacherImageView.image = teacherImage
     // 画像の表示する座標を指定する.
@@ -106,7 +106,7 @@ class ProfileViewController: UIViewController {
     let teacherName = UIButton(frame: CGRect(x: 0, y: 0, width: 200, height: 20))
     teacherName.setTitleColor(primaryText, forState: .Normal)
     teacherName.layer.masksToBounds = true
-    teacherName.setTitle(JSON(teacher["fullname"]).toString(pretty: true), forState: .Normal)
+    teacherName.setTitle(JSON(teacher["fullname"]).toString(true), forState: .Normal)
     teacherName.layer.cornerRadius = 10.0
     teacherName.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left;
     teacherName.layer.position = CGPoint(x: self.view.bounds.width - self.view.bounds.width/3, y:self.view.bounds.height/3.6)
@@ -116,7 +116,7 @@ class ProfileViewController: UIViewController {
     let teacherBirthday = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 20))
     teacherBirthday.setTitleColor(primaryText, forState: .Normal)
     teacherBirthday.layer.masksToBounds = true
-    teacherBirthday.setTitle("Birthday : " + JSON(teacher["birthday"]).toString(pretty: true), forState: .Normal)
+    teacherBirthday.setTitle("Birthday : " + JSON(teacher["birthday"]).toString(true), forState: .Normal)
     teacherBirthday.layer.cornerRadius = 10.0
     teacherBirthday.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left;
     teacherBirthday.layer.position = CGPoint(x:self.view.bounds.width/2 + 15, y:self.view.bounds.height/4 + 100)
@@ -126,7 +126,7 @@ class ProfileViewController: UIViewController {
     let teacherHobby = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 20))
     teacherHobby.setTitleColor(primaryText, forState: .Normal)
     teacherHobby.layer.masksToBounds = true
-    teacherHobby.setTitle("Hobby : " + JSON(teacher["hobby"]).toString(pretty: true), forState: .Normal)
+    teacherHobby.setTitle("Hobby : " + JSON(teacher["hobby"]).toString(true), forState: .Normal)
     teacherHobby.layer.cornerRadius = 10.0
     teacherHobby.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left;
     teacherHobby.layer.position = CGPoint(x: self.view.bounds.width/2 + 15, y:self.view.bounds.height/4 + 150)
@@ -136,7 +136,7 @@ class ProfileViewController: UIViewController {
     let teacherJob = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 20))
     teacherJob.setTitleColor(primaryText, forState: .Normal)
     teacherJob.layer.masksToBounds = true
-    teacherJob.setTitle("Job : " + JSON(teacher["job"]).toString(pretty: true), forState: .Normal)
+    teacherJob.setTitle("Job : " + JSON(teacher["job"]).toString(true), forState: .Normal)
     teacherJob.layer.cornerRadius = 10.0
     teacherJob.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left;
     teacherJob.layer.position = CGPoint(x: self.view.bounds.width/2 + 15, y:self.view.bounds.height/4 + 200)
@@ -146,7 +146,7 @@ class ProfileViewController: UIViewController {
     let teacherDream = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 20))
     teacherDream.setTitleColor(primaryText, forState: .Normal)
     teacherDream.layer.masksToBounds = true
-    teacherDream.setTitle("Dream : " + JSON(teacher["dream"]).toString(pretty: true), forState: .Normal)
+    teacherDream.setTitle("Dream : " + JSON(teacher["dream"]).toString(true), forState: .Normal)
     teacherDream.layer.cornerRadius = 10.0
     teacherDream.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left;
     teacherDream.layer.position = CGPoint(x: self.view.bounds.width/2 + 15, y:self.view.bounds.height/4 + 250)
@@ -156,33 +156,33 @@ class ProfileViewController: UIViewController {
   }
   
   func getRequestStatus(requestStatusID:String) -> JSON{
-    var getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatusID
+    let getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatusID
     let requestStatus = JSON(url: getRequestStatusURL)
-    println(getRequestStatusURL)
-    println(requestStatus)
+    print(getRequestStatusURL)
+    print(requestStatus)
     return requestStatus
   }
 
   func getTopics() -> JSON{
-    var getTopicsURL = "http://52.8.212.125/getTopics"
+    let getTopicsURL = "http://52.8.212.125/getTopics"
     let topicsRes = JSON(url: getTopicsURL)
-    println(getTopicsURL)
-    println(topicsRes)
+    print(getTopicsURL)
+    print(topicsRes)
     return topicsRes
   }
 
   func getUser(requestUserId:String) -> JSON{
-    var getUserURL = "http://52.8.212.125/getUser?userid=" + requestUserId
+    let getUserURL = "http://52.8.212.125/getUser?userid=" + requestUserId
     let userRes = JSON(url: getUserURL)
-    println(getUserURL)
-    println(userRes)
+    print(getUserURL)
+    print(userRes)
     return userRes
   }
   
   func getImage(image:String)->NSData{
     let url = NSURL(string: "http://52.8.212.125/getImage?url=" + image);
     var err: NSError?;
-    var getImageRes :NSData = NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &err)!;
+    let getImageRes :NSData = try! NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe);
     return getImageRes
   }
   
