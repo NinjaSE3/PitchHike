@@ -153,7 +153,7 @@ class SearchViewController: UIViewController,CLLocationManagerDelegate {
   }
   
   func requestTeacher(lat:String,lng:String,lang:String,userid:String) -> JSON{
-    let requestTeacherURL = "http://52.8.212.125/requestTeacher?lat=" + String(lat) + "&lng="+String(lng)+"&lang=" + String(lang) + "&userid=" + String(userid)
+    let requestTeacherURL = "http://localhost:8080/requestTeacher?lat=" + String(lat) + "&lng="+String(lng)+"&lang=" + String(lang) + "&userid=" + String(userid)
     let requestTeacherRes = JSON(url: requestTeacherURL)
     print(requestTeacherURL)
     print(requestTeacherRes)
@@ -161,7 +161,7 @@ class SearchViewController: UIViewController,CLLocationManagerDelegate {
   }
   
   func getRequestStatus(_id:String) -> JSON{
-    let getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id="+_id
+    let getRequestStatusURL = "http://localhost:8080/getRequestStatus?_id="+_id
     let requestStatusRes = JSON(url: getRequestStatusURL)
     print(getRequestStatusURL)
     print(requestStatusRes)

@@ -177,7 +177,7 @@ class StartViewController: UIViewController {
   }
   
   func getRequestStatus(requestStatus:String) -> JSON{
-    let getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatus
+    let getRequestStatusURL = "http://localhost:8080/getRequestStatus?_id=" + requestStatus
     let requestStatus = JSON(url: getRequestStatusURL)
     print(getRequestStatusURL)
     print(requestStatus)
@@ -185,7 +185,7 @@ class StartViewController: UIViewController {
   }
   
   func getUser(requestUserId:String) -> JSON{
-    let getUserURL = "http://52.8.212.125/getUser?userid=" + requestUserId
+    let getUserURL = "http://localhost:8080/getUser?userid=" + requestUserId
     let userRes = JSON(url: getUserURL)
     print(getUserURL)
     print(userRes)
@@ -193,7 +193,7 @@ class StartViewController: UIViewController {
   }
   
   func startPitching(requestStatusID:String) -> JSON{
-    let startPitchingURL = "http://52.8.212.125/startPitching?_id=" + requestStatusID
+    let startPitchingURL = "http://localhost:8080/startPitching?_id=" + requestStatusID
     let startPitchingRes = JSON(url: startPitchingURL)
     print(startPitchingURL)
     print(startPitchingRes)
@@ -201,7 +201,7 @@ class StartViewController: UIViewController {
   }
   
   func getImage(image:String)->NSData{
-    let url = NSURL(string: "http://52.8.212.125/getImage?url=" + image);
+    let url = NSURL(string: "http://localhost:8080/getImage?url=" + image);
     var err: NSError?;
     let getImageRes :NSData = try! NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe);
     return getImageRes

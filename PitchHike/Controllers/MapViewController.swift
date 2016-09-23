@@ -54,25 +54,32 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   }
 
   func fetchNearbyPlaces(coordinate: CLLocationCoordinate2D) {
+    NSLog("---MapViewController fetchNearbyPlaces---");
     // 1
     mapView.clear()
+    NSLog("---MapViewController mapView.clear()---");
     
     // 2
     dataProvider.fetchPlacesNearCoordinate(coordinate, radius:mapRadius, types: searchedTypes) { places in
       for place: GooglePlace in places {
+        NSLog("---MapViewController for place: GooglePlace in places---");
         // 3
         let marker = PlaceMarker(place: place)
+        NSLog("---MapViewController PlaceMarker---");
         // 4
         marker.map = self.mapView
+        NSLog("---MapViewController self.mapView---");
       }
     }
   }
   
   @IBAction func refreshPlaces(sender: AnyObject) {
+    NSLog("---MapViewController refreshPlaces---");
     fetchNearbyPlaces(mapView.camera.target)
   }
   
   @IBAction func mapTypeSegmentPressed(sender: AnyObject) {
+    NSLog("---MapViewController mapTypeSegmentPressed---");
     let segmentedControl = sender as! UISegmentedControl
     switch segmentedControl.selectedSegmentIndex {
     case 0:
@@ -87,6 +94,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   }
   
   func mapView(mapView: GMSMapView!, markerInfoContents marker: GMSMarker!) -> UIView! {
+    NSLog("---MapViewController mapView(mapView: GMSMapView!, markerInfoContents marker: GMSMarker!)---");
     // 1
     let placeMarker = marker as! PlaceMarker
     
@@ -111,26 +119,35 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   
   // 1
   func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    NSLog("---MapViewController locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus)---");
     // 2
     if status == .AuthorizedWhenInUse {
+      NSLog("---MapViewController AuthorizedWhenInUse---");
       
       // 3
       locationManager.startUpdatingLocation()
+      NSLog("---MapViewController startUpdatingLocation---");
       
       //4
       mapView.myLocationEnabled = true
       mapView.settings.myLocationButton = true
+      NSLog("---MapViewController myLocationEnabled & myLocationButton---");
+      
     }
   }
   
   func mapView(mapView: GMSMapView!, didTapMarker marker: GMSMarker!) -> Bool {
+    NSLog("---MapViewController mapView(mapView: GMSMapView!, didTapMarker marker: GMSMarker!)---");
     mapCenterPinImage.fadeOut(0.25)
     return false
   }
   
   // 5 位置情報取得成功後のdelgate
   func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    NSLog("---MapViewController locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])---");
+    NSLog((locations.first?.description)!);
     if let location = locations.first as? CLLocation! {
+      NSLog("---MapViewController locations.first true---");
       // 6
       mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
       
@@ -141,12 +158,14 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   }
   
   func reverseGeocodeCoordinate(coordinate: CLLocationCoordinate2D) {
+    NSLog("---MapViewController reverseGeocodeCoordinate---");
     let geocoder = GMSGeocoder()
     geocoder.reverseGeocodeCoordinate(coordinate) { response , error in
       
       //Add this line
       self.addressLabel.unlock()
       if let address = response?.firstResult() {
+        NSLog("---MapViewController address = response?.firstResult()---");
         self.addressLabel.backgroundColor = self.primaryColor
         self.addressLabel.textColor = self.lightPrimaryColor
         let lines = address.lines as! [String]
@@ -155,6 +174,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
         let labelHeight = self.addressLabel.intrinsicContentSize().height
         self.mapView.padding = UIEdgeInsets(top: self.topLayoutGuide.length, left: 0, bottom: labelHeight, right: 0)
         UIView.animateWithDuration(0.25) {
+          NSLog("---MapViewController UIView.animateWithDuration(0.25)---");
           self.pinImageVerticalConstraint.constant = ((labelHeight - self.topLayoutGuide.length) * 0.5)
           self.view.layoutIfNeeded()
         }
@@ -163,6 +183,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   }
   
   func mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!) {
+    NSLog("---MapViewController mapView(mapView: GMSMapView!, didTapInfoWindowOfMarker marker: GMSMarker!)---");
     // 1
     let googleMarker = mapView.selectedMarker as! PlaceMarker
     
@@ -289,6 +310,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   }
   
   func mapView(mapView: GMSMapView!, willMove gesture: Bool) {
+    NSLog("---MapViewController mapView(mapView: GMSMapView!, willMove gesture: Bool)---");
     addressLabel.lock()
     if (gesture) {
       mapCenterPinImage.fadeIn(0.25)
@@ -312,16 +334,19 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   }
   
   func didTapMyLocationButtonForMapView(mapView: GMSMapView!) -> Bool {
+    NSLog("---MapViewController didTapMyLocationButtonForMapView---");
     mapCenterPinImage.fadeIn(0.25)
     mapView.selectedMarker = nil
     return false
   }
   
   func mapView(mapView: GMSMapView!, idleAtCameraPosition position: GMSCameraPosition!) {
+    NSLog("---MapViewController mapView(mapView: GMSMapView!, idleAtCameraPosition position: GMSCameraPosition!)---");
     reverseGeocodeCoordinate(position.target)
   }
   
   override func viewDidLoad() {
+    NSLog("---MapViewController viewDidLoad---");
     super.viewDidLoad()
     
     secondaryText = UIColorFromRGB(0x727272);
@@ -348,6 +373,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   }
   
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    NSLog("---MapViewController prepareForSegue---");
     if segue.identifier == "Types Segue" {
       let navigationController = segue.destinationViewController as! UINavigationController
       let controller = (segue.destinationViewController as! UINavigationController).topViewController as!TypesTableViewController
@@ -358,13 +384,15 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   
   // MARK: - Types Controller Delegate
   func typesController(controller: TypesTableViewController, didSelectTypes types: [String]) {
+    NSLog("---MapViewController typesController---");
     searchedTypes = controller.selectedTypes.sort()
     dismissViewControllerAnimated(true, completion: nil)
     fetchNearbyPlaces(mapView.camera.target)
   }
   
   func getRequestStatus(_id:String) -> JSON{
-    let getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id="+_id
+    NSLog("---MapViewController getRequestStatus---");
+    let getRequestStatusURL = "http://localhost:8080/getRequestStatus?_id="+_id
     let requestStatusRes = JSON(url: getRequestStatusURL)
     print(getRequestStatusURL)
     print(requestStatusRes)
@@ -372,7 +400,8 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   }
   
   func getUser(requestUserId:String) -> JSON{
-    let userReq = "http://52.8.212.125/getUser?userid=" + requestUserId
+    NSLog("---MapViewController getUser---");
+    let userReq = "http://localhost:8080/getUser?userid=" + requestUserId
     let user = JSON(url: userReq)
     print(userReq)
     print(user)
@@ -380,6 +409,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   }
   
   func createTopicButton(){
+    NSLog("---MapViewController createTopicButton---");
     // トピック表示ボタンの生成.
     let myButton = ZFRippleButton(frame: CGRect(x: 0, y: 0, width: 200, height: 40))
     myButton.tag = 9999
@@ -395,6 +425,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   }
   //UIntに16進で数値をいれるとUIColorが戻る関数
   func UIColorFromRGB(rgbValue: UInt) -> UIColor {
+    NSLog("---MapViewController UIColorFromRGB---");
     return UIColor(
       red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
       green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
@@ -405,6 +436,7 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   
   // トピック表示ボタンイベントのセット.
   func onClickMyButton(sender: UIButton){
+    NSLog("---MapViewController onClickMyButton---");
     
     //プレゼン用の偽装コード　使い終わったら必ず消すこと！！
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -423,12 +455,14 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   
   // 先生の写真クリック時にプロフィール画面を表示する
   func onClickTeacherImageView(recognizer: UIGestureRecognizer) {
+    NSLog("---MapViewController onClickTeacherImageView---");
     let profileViewController: UIViewController = ProfileViewController()
     navigationController?.pushViewController(profileViewController, animated: true)
   }
   
   func getImage(image:String)->NSData{
-    let url = NSURL(string: "http://52.8.212.125/getImage?url=" + image);
+    NSLog("---MapViewController getImage---");
+    let url = NSURL(string: "http://localhost:8080/getImage?url=" + image);
     var err: NSError?;
     let getImageRes :NSData = try! NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe);
     return getImageRes
@@ -437,7 +471,8 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
   
   //プレゼン用の偽装コード　使い終わったら必ず消すこと！！
   func responseTeacher(userid:String,requestStatusID:String) -> JSON{
-    let responseTeacherURL = "http://52.8.212.125/responseTeacher?userid=" + userid + "&_id=" + requestStatusID
+    NSLog("---MapViewController responseTeacher---");
+    let responseTeacherURL = "http://localhost:8080/responseTeacher?userid=" + userid + "&_id=" + requestStatusID
     let responseTeacherRes = JSON(url: responseTeacherURL)
     print(responseTeacherURL)
     print(responseTeacherRes)
@@ -447,7 +482,8 @@ class MapViewController: UIViewController, TypesTableViewControllerDelegate, CLL
 
   
   func getArrivedTime(_id:String) -> JSON{
-    let getArrivedTimeURL = "http://52.8.212.125/updateArrive?_id="+_id
+    NSLog("---MapViewController getArrivedTime---");
+    let getArrivedTimeURL = "http://localhost:8080/updateArrive?_id="+_id
     let requestStatusRes = JSON(url: getArrivedTimeURL)
     print(getArrivedTimeURL)
     print(requestStatusRes)

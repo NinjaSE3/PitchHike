@@ -156,7 +156,7 @@ class ProfileViewController: UIViewController {
   }
   
   func getRequestStatus(requestStatusID:String) -> JSON{
-    let getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatusID
+    let getRequestStatusURL = "http://localhost:8080/getRequestStatus?_id=" + requestStatusID
     let requestStatus = JSON(url: getRequestStatusURL)
     print(getRequestStatusURL)
     print(requestStatus)
@@ -164,7 +164,7 @@ class ProfileViewController: UIViewController {
   }
 
   func getTopics() -> JSON{
-    let getTopicsURL = "http://52.8.212.125/getTopics"
+    let getTopicsURL = "http://localhost:8080/getTopics"
     let topicsRes = JSON(url: getTopicsURL)
     print(getTopicsURL)
     print(topicsRes)
@@ -172,7 +172,7 @@ class ProfileViewController: UIViewController {
   }
 
   func getUser(requestUserId:String) -> JSON{
-    let getUserURL = "http://52.8.212.125/getUser?userid=" + requestUserId
+    let getUserURL = "http://localhost:8080/getUser?userid=" + requestUserId
     let userRes = JSON(url: getUserURL)
     print(getUserURL)
     print(userRes)
@@ -180,7 +180,7 @@ class ProfileViewController: UIViewController {
   }
   
   func getImage(image:String)->NSData{
-    let url = NSURL(string: "http://52.8.212.125/getImage?url=" + image);
+    let url = NSURL(string: "http://localhost:8080/getImage?url=" + image);
     var err: NSError?;
     let getImageRes :NSData = try! NSData(contentsOfURL: url!,options: NSDataReadingOptions.DataReadingMappedIfSafe);
     return getImageRes
