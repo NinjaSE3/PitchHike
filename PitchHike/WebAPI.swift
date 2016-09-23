@@ -11,7 +11,7 @@ import Foundation
 class WebAPI {
     
     func requestTeacher(lat:String,lng:String,lang:String,userid:String) -> JSON{
-        let teacherReq = "http://52.8.212.125/requestTeacher?lat=" + String(lat) + "&lng="+String(lng)+"&lang=" + String(lang) + "&userid=" + String(userid)
+        let teacherReq = "http://localhost:8080/requestTeacher?lat=" + String(lat) + "&lng="+String(lng)+"&lang=" + String(lang) + "&userid=" + String(userid)
         let requestStatus = JSON(url: teacherReq)
         print(teacherReq)
         print(requestStatus)
@@ -19,7 +19,7 @@ class WebAPI {
     }
 
     func getRequestStatus(requestStatus:String) -> JSON{
-        let statusReq = "http://52.8.212.125/getRequestStatus?_id=" + requestStatus
+        let statusReq = "http://localhost:8080/getRequestStatus?_id=" + requestStatus
         let status = JSON(url: statusReq)
         print(statusReq)
         print(status)
@@ -27,7 +27,7 @@ class WebAPI {
     }
     
     func getUser(requestUserId:String) -> JSON{
-        let userReq = "http://52.8.212.125/getUser?userid=" + requestUserId
+        let userReq = "http://localhost:8080/getUser?userid=" + requestUserId
         let user = JSON(url: userReq)
         print(userReq)
         print(user)

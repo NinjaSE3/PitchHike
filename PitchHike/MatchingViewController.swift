@@ -92,7 +92,7 @@ class MatchingViewController: UIViewController,CLLocationManagerDelegate {
   }
   
   func getRequestStatus(requestStatus:String) -> JSON{
-    let getRequestStatusURL = "http://52.8.212.125/getRequestStatus?_id=" + requestStatus
+    let getRequestStatusURL = "http://localhost:8080/getRequestStatus?_id=" + requestStatus
     let requestStatus = JSON(url: getRequestStatusURL)
     print(getRequestStatusURL)
     print(requestStatus)
@@ -100,7 +100,7 @@ class MatchingViewController: UIViewController,CLLocationManagerDelegate {
   }
   
   func getUser(requestUserId:String) -> JSON{
-    let getUserURL = "http://52.8.212.125/getUser?userid=" + requestUserId
+    let getUserURL = "http://localhost:8080/getUser?userid=" + requestUserId
     let userRes = JSON(url: getUserURL)
     print(getUserURL)
     print(userRes)
